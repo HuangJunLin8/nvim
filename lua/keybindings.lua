@@ -76,7 +76,7 @@ map("n", "qq", ":wq<CR>", opt)
 map("n", "Q", ":q!<CR>", opt)
 map("i", "jj", "<ESC>", opt)
 
-map("n", "<Leader>w", ":w<CR>", opt) -- 空格 + w 保存
+map("n", "<Leader>s", ":w<CR>", opt) -- 空格 + w 保存
 
 -- insert 模式下，跳到行首行尾
 map("i", "<C-h>", "<ESC>I", opt)
@@ -100,4 +100,8 @@ map("n", "<leader>bl", ":BufferLineCloseRight<CR>", opt) -- 关闭右侧所有�
 map("n", "<leader>bh", ":BufferLineCloseLeft<CR>", opt)  -- 关闭左侧所有标签页（不含当前）
 map("n", "<leader>bc", ":BufferLinePickClose<CR>", opt)   -- 交互式选择关闭目标标签页
 
+
+-- Telescope 全局快捷键
+map("n", "<C-p>", "<cmd>Telescope find_files<CR>", opt)
+map("n", "<C-f>", "<cmd>Telescope live_grep<CR>", opt)
 

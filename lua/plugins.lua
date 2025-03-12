@@ -48,5 +48,14 @@ require("lazy").setup({
       "nvim-tree/nvim-web-devicons",
       "arkav/lualine-lsp-progress"  -- LSP 进度扩展
     }
+  },
+
+  -- Telescope （文件搜索）
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("plugin-config.telescope")
+    end
   }
 })
