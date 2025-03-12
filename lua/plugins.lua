@@ -44,6 +44,9 @@ require("lazy").setup({
   -- Lualine (底部状态栏)
   {
     "nvim-lualine/lualine.nvim",
-    dependencies = "nvim-tree/nvim-web-devicons",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+      "arkav/lualine-lsp-progress"  -- LSP 进度扩展
+    }
   }
 })

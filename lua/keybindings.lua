@@ -95,7 +95,7 @@ map("n", "<leader>h", ":BufferLineCyclePrev<CR>", opt)  -- ← 切换到左侧�
 map("n", "<leader>l", ":BufferLineCycleNext<CR>", opt)  -- → 切换到右侧标签页
 
 -- Buffer 关闭操作
-map("n", "<C-w>", ":Bdelete!<CR>", opt)            -- 安全关闭当前标签页（vim-bbye 插件）
+map("n", "<leader>w", ":Bdelete!<CR>", opt)            -- 安全关闭当前标签页（vim-bbye 插件）
 map("n", "<leader>bl", ":BufferLineCloseRight<CR>", opt) -- 关闭右侧所有标签页（不含当前）
 map("n", "<leader>bh", ":BufferLineCloseLeft<CR>", opt)  -- 关闭左侧所有标签页（不含当前）
 map("n", "<leader>bc", ":BufferLinePickClose<CR>", opt)   -- 交互式选择关闭目标标签页
