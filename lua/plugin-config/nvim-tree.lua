@@ -1,55 +1,55 @@
+-- 安全加载 nvim-tree 插件并检查是否安装
 local status, nvim_tree = pcall(require, "nvim-tree")
 if not status then
     vim.notify("没有找到 nvim-tree: " .. tostring(nvim_tree), vim.log.levels.ERROR)
     return
 end
 
--- 列表操作快捷键
-local list_keys = require('keybindings').nvimTreeList
-
+-- 配置 nvim-tree 文件浏览器
 nvim_tree.setup({
-    -- 不显示 git 状态图标
-    git = {
-        enable = false,
-    },
-    -- 更新当前工作目录
-    update_cwd = true,
-    -- 更新焦点文件
-    update_focused_file = {
+    git = { enable = false },         -- 禁用 git 状态显示
+    update_cwd = true,                -- 更新时同步当前工作目录
+    update_focused_file = {           -- 自动聚焦当前打开文件
         enable = true,
         update_cwd = true,
     },
-    -- 隐藏 .文件 和 node_modules 文件夹
-    filters = {
-        dotfiles = true,
-        custom = { 'node_modules' },
+    filters = {                       -- 文件过滤配置
+        dotfiles = false,             -- 显示隐藏文件（以点开头的文件）
+        custom = { 'node_modules' },  -- 排除 node_modules 目录
     },
-    view = {
-        -- 宽度
-        width = 40,
-        -- 侧边栏位置，可以是 'left' 或 'right'
-        side = 'left',
-        -- 不显示行号
-        number = false,
-        relativenumber = false,
-        -- 显示图标
-        signcolumn = 'yes',
+    view = {                          -- 视图布局配置
+        width = 28,                   -- 侧边栏宽度
+        side = 'left',                -- 显示在左侧
+        number = false,               -- 禁用行号
+        relativenumber = false,       -- 禁用相对行号
+        signcolumn = 'yes',           -- 显示标记列（用于 git 等提示）
     },
-    actions = {
+    actions = {                       -- 文件操作配置
         open_file = {
-            -- 首次打开大小适配
-            resize_window = true,
-            -- 打开文件时关闭
-            quit_on_open = true,
+            resize_window = true,     -- 打开文件时自动调整窗口大小
+            quit_on_open = false,     -- 打开文件时不自动关闭侧边栏
         },
     },
-    -- Linux 使用 xdg-open
-    system_open = {
-        cmd = 'xdg-open',
-    },
+    system_open = { cmd = 'xdg-open' }, -- Linux 系统默认打开方式
+
+    -- 自定义按键映射配置
+    on_attach = function(bufnr)
+        local api = require('nvim-tree.api')
+        
+        -- 保留默认快捷键设置
+        api.config.mappings.default_on_attach(bufnr)
+
+        -- 自定义快捷键：逗号切换隐藏文件显示
+        vim.keymap.set('n', ',', api.tree.toggle_hidden_filter, {
+            buffer = bufnr,
+            desc = '切换隐藏文件显示',
+            nowait = true
+        })
+    end
 })
 
--- 自动关闭
+-- 当只剩下文件树窗口时自动关闭
 vim.cmd([[
   autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
 ]])
+
