@@ -105,3 +105,23 @@ map("n", "<leader>bc", ":BufferLinePickClose<CR>", opt)   -- 交互式选择关�
 map("n", "<C-p>", "<cmd>Telescope find_files<CR>", opt)
 map("n", "<C-f>", "<cmd>Telescope live_grep<CR>", opt)
 
+
+-- 导出 Telescope 专用映射表
+local M = {}
+
+M.telescope_mappings = {
+  i = {
+    ["<C-j>"] = "move_selection_next",          -- 下移选项
+    ["<C-k>"] = "move_selection_previous",       -- 上移选项
+    ["<C-n>"] = "cycle_history_next",           -- 搜索历史下翻
+    ["<C-p>"] = "cycle_history_prev",           -- 搜索历史上翻
+    ["<C-q>"] = "close",                        -- 关闭窗口
+    ["<C-u>"] = "preview_scrolling_up",         -- 预览窗口上滚
+    ["<C-d>"] = "preview_scrolling_down",       -- 预览窗口下滚
+  },
+  n = {
+    ["q"] = "close"                             -- 普通模式关闭
+  }
+}
+
+return M
