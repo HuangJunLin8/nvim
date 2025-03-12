@@ -35,7 +35,10 @@ require("lazy").setup({
   {
     "akinsho/bufferline.nvim",
     version = "*",
-    dependencies = "nvim-tree/nvim-web-devicons",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+      "moll/vim-bbye"
+    }
   },
 
   -- Lualine (底部状态栏)

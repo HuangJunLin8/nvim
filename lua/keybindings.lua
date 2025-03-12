@@ -9,6 +9,7 @@ local map = vim.api.nvim_set_keymap
 local opt = {noremap = true, silent = true }
 
 
+
 -- 窗口管理快捷键映射
 -- 取消 s 默认功能
 map("n", "s", "", opt)
@@ -75,6 +76,8 @@ map("n", "qq", ":wq<CR>", opt)
 map("n", "Q", ":q!<CR>", opt)
 map("i", "jj", "<ESC>", opt)
 
+map("n", "<Leader>w", ":w<CR>", opt) -- 空格 + w 保存
+
 -- insert 模式下，跳到行首行尾
 map("i", "<C-h>", "<ESC>I", opt)
 map("i", "<C-l>", "<ESC>A", opt)
@@ -83,6 +86,18 @@ map("i", "<C-l>", "<ESC>A", opt)
 -- 插件快捷键
 
 -- nvim-tree
--- alt + m 键打开关闭tree
+-- space + m 键打开关闭tree
 map("n", "<A-m>", ":NvimTreeToggle<CR>", opt)
+
+
+-- Buffer 标签页导航
+map("n", "<leader>h", ":BufferLineCyclePrev<CR>", opt)  -- ← 切换到左侧标签页
+map("n", "<leader>l", ":BufferLineCycleNext<CR>", opt)  -- → 切换到右侧标签页
+
+-- Buffer 关闭操作
+map("n", "<C-w>", ":Bdelete!<CR>", opt)            -- 安全关闭当前标签页（vim-bbye 插件）
+map("n", "<leader>bl", ":BufferLineCloseRight<CR>", opt) -- 关闭右侧所有标签页（不含当前）
+map("n", "<leader>bh", ":BufferLineCloseLeft<CR>", opt)  -- 关闭左侧所有标签页（不含当前）
+map("n", "<leader>bc", ":BufferLinePickClose<CR>", opt)   -- 交互式选择关闭目标标签页
+
 
