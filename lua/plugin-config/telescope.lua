@@ -41,5 +41,15 @@ telescope.setup({
       additional_args = { "--hidden" } -- 搜索隐藏文件
     }
   },
+
+  extensions = {
+    env = {
+      -- 自定义配置参数
+      highlight = { icon = "" }, -- 显示图标
+      border = true,              -- 启用窗口边框
+      path_display = { "shorten" } -- 路径显示方式
+    }
+  },
+
 })
 

@@ -124,4 +124,7 @@ M.telescope_mappings = {
   }
 }
 
+-- 环境变量搜索 (需要 telescope-env.nvim)
+map("n", "<leader>fe", "<cmd>Telescope env<CR>", opt) -- 空格 + fe 打开环境变量搜索
+
 return M

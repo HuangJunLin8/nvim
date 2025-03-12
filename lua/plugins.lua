@@ -57,5 +57,16 @@ require("lazy").setup({
     config = function()
       require("plugin-config.telescope")
     end
+  },
+
+  -- 新增 telescope-env 扩展
+  {
+    "LinArcX/telescope-env.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim" }, -- 声明依赖
+    config = function()
+      require("telescope").load_extension("env")
+    end
   }
+
+
 })
