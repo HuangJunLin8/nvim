@@ -30,4 +30,17 @@ require("lazy").setup({
       "nvim-tree/nvim-web-devicons", -- 可选，用于文件图标
     },
   },
+
+  -- Bufferline (顶部标签栏)
+  {
+    "akinsho/bufferline.nvim",
+    version = "*",
+    dependencies = "nvim-tree/nvim-web-devicons",
+  },
+
+  -- Lualine (底部状态栏)
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = "nvim-tree/nvim-web-devicons",
+  }
 })
