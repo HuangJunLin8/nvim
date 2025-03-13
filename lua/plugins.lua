@@ -21,6 +21,9 @@ require("lazy").setup({
     "folke/tokyonight.nvim",
     lazy = false,  -- 主题需要立即加载
     priority = 1000,  -- 设置高优先级以确保主题优先加载
+    config = function()
+      require("colorscheme") -- 独立颜色配置文件
+    end
   },
 
   -- 文件树插件
@@ -29,6 +32,9 @@ require("lazy").setup({
     dependencies = {
       "nvim-tree/nvim-web-devicons", -- 可选，用于文件图标
     },
+    config = function()
+      require("plugin-config.nvim-tree")
+    end
   },
 
   -- Bufferline (顶部标签栏)
@@ -38,7 +44,11 @@ require("lazy").setup({
     dependencies = {
       "nvim-tree/nvim-web-devicons",
       "moll/vim-bbye"
-    }
+    },
+    event = "BufEnter", -- 缓冲区事件触发加载
+    config = function()
+      require("plugin-config.bufferline")
+    end
   },
 
   -- Lualine (底部状态栏)
@@ -47,7 +57,11 @@ require("lazy").setup({
     dependencies = {
       "nvim-tree/nvim-web-devicons",
       "arkav/lualine-lsp-progress"  -- LSP 进度扩展
-    }
+    },
+    event = "VeryLazy", -- 延迟加载
+    config = function()
+      require("plugin-config.lualine")
+    end
   },
 
   -- Telescope （文件搜索）
