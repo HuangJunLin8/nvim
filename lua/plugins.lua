@@ -80,7 +80,7 @@ require("lazy").setup({
   },
 
 
-  -- 新增 telescope-env 扩展
+  --  telescope-env  search files
   {
     "LinArcX/telescope-env.nvim",
     dependencies = { "nvim-telescope/telescope.nvim" }, -- 声明依赖
@@ -90,7 +90,7 @@ require("lazy").setup({
   }, 
 
 
-  -- 新增 dashboard 配置
+  --  dashboard  startup page
   {
     "nvimdev/dashboard-nvim",
     event = "VimEnter",
@@ -107,5 +107,18 @@ require("lazy").setup({
       require("plugin-config.dashboard")
     end
   },
+
+  -- treesitter hight light the code
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",  -- 首次安装自动编译
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-textobjects" -- 可选文本对象支持
+    },
+    event = "VeryLazy",    -- 延迟加载
+    config = function()
+      require("plugin-config.nvim-treesitter")  -- 加载你的配置文件
+    end
+  }
 
 })
