@@ -16,6 +16,8 @@ vim.opt.rtp:prepend(lazypath)
 
 -- 配置插件
 require("lazy").setup({
+
+
   -- 主题插件
   {
     "folke/tokyonight.nvim",
@@ -25,6 +27,7 @@ require("lazy").setup({
       require("colorscheme") -- 独立颜色配置文件
     end
   },
+
 
   -- 文件树插件
   {
@@ -36,6 +39,7 @@ require("lazy").setup({
       require("plugin-config.nvim-tree")
     end
   },
+
 
   -- Bufferline (顶部标签栏)
   {
@@ -51,6 +55,7 @@ require("lazy").setup({
     end
   },
 
+
   -- Lualine (底部状态栏)
   {
     "nvim-lualine/lualine.nvim",
@@ -64,6 +69,7 @@ require("lazy").setup({
     end
   },
 
+
   -- Telescope （文件搜索）
   {
     "nvim-telescope/telescope.nvim",
@@ -73,6 +79,7 @@ require("lazy").setup({
     end
   },
 
+
   -- 新增 telescope-env 扩展
   {
     "LinArcX/telescope-env.nvim",
@@ -80,7 +87,25 @@ require("lazy").setup({
     config = function()
       require("telescope").load_extension("env")
     end
-  }
+  }, 
 
+
+  -- 新增 dashboard 配置
+  {
+    "nvimdev/dashboard-nvim",
+    event = "VimEnter",
+
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+      "nvim-telescope/telescope.nvim" -- 添加 telescope 依赖
+    },
+
+    config = function()
+      -- 禁用默认文件浏览器
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
+      require("plugin-config.dashboard")
+    end
+  },
 
 })

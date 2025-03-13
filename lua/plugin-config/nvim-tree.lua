@@ -14,7 +14,7 @@ nvim_tree.setup({
         update_cwd = true,
     },
     filters = {                       -- 文件过滤配置
-        dotfiles = false,             -- 显示隐藏文件（以点开头的文件）
+        dotfiles = true,             -- 显示隐藏文件（以点开头的文件）
         custom = { 'node_modules' },  -- 排除 node_modules 目录
     },
     view = {                          -- 视图布局配置
