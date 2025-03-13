@@ -10,7 +10,4 @@ require("keybindings")
 require("plugins")
 
 
--- 主题设置 
-require("colorscheme")
-
 

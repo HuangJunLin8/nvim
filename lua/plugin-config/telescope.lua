@@ -8,13 +8,27 @@ end
 -- sudo apt install ripgrep 或 brew install ripgrep
 -- npm install -g fd-find
 
--- 引入快捷键配置
-local keys = require("keybindings")
-
 telescope.setup({
   defaults = {
+
+    mappings = {   -- 内部快捷键配置
+      i = {
+        ["<C-j>"] = "move_selection_next",
+        ["<C-k>"] = "move_selection_previous",
+        ["<C-n>"] = "cycle_history_next",
+        ["<C-p>"] = "cycle_history_prev",
+        ["<C-q>"] = "close",
+        ["<C-u>"] = "preview_scrolling_up",
+        ["<C-d>"] = "preview_scrolling_down",
+      },
+      n = {
+        ["q"] = "close",
+      }
+    },
+
     initial_mode = "insert",       -- 打开窗口默认为插入模式
     layout_strategy = "horizontal", -- 布局策略 (vertical/horizontal/flex)
+
     layout_config = {
       width = 0.9,                -- 窗口宽度占比
       height = 0.8                -- 窗口高度占比
@@ -26,8 +40,6 @@ telescope.setup({
       ".git/",
       "__pycache__"
     },
-
-    mappings = keys.telescope_mappings  -- 引用外部映射表
   },
 
   pickers = {

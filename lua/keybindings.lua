@@ -83,48 +83,6 @@ map("i", "<C-h>", "<ESC>I", opt)
 map("i", "<C-l>", "<ESC>A", opt)
 
 
--- 插件快捷键
+-- 插件内部快捷键在对应的插件.lua里
+-- 启动插件的快捷键在plugins.lua里
 
--- nvim-tree
--- space + m 键打开关闭tree
-map("n", "<A-m>", ":NvimTreeToggle<CR>", opt)
-
-
--- Buffer 标签页导航
-map("n", "<leader>h", ":BufferLineCyclePrev<CR>", opt)  -- ← 切换到左侧标签页
-map("n", "<leader>l", ":BufferLineCycleNext<CR>", opt)  -- → 切换到右侧标签页
-
--- Buffer 关闭操作
-map("n", "<leader>w", ":Bdelete!<CR>", opt)            -- 安全关闭当前标签页（vim-bbye 插件）
-map("n", "<leader>bl", ":BufferLineCloseRight<CR>", opt) -- 关闭右侧所有标签页（不含当前）
-map("n", "<leader>bh", ":BufferLineCloseLeft<CR>", opt)  -- 关闭左侧所有标签页（不含当前）
-map("n", "<leader>bc", ":BufferLinePickClose<CR>", opt)   -- 交互式选择关闭目标标签页
-
-
--- Telescope 全局快捷键
-map("n", "<C-p>", "<cmd>Telescope find_files<CR>", opt)
-map("n", "<C-f>", "<cmd>Telescope live_grep<CR>", opt)
-
-
--- 导出 Telescope 专用映射表
-local M = {}
-
-M.telescope_mappings = {
-  i = {
-    ["<C-j>"] = "move_selection_next",          -- 下移选项
-    ["<C-k>"] = "move_selection_previous",       -- 上移选项
-    ["<C-n>"] = "cycle_history_next",           -- 搜索历史下翻
-    ["<C-p>"] = "cycle_history_prev",           -- 搜索历史上翻
-    ["<C-q>"] = "close",                        -- 关闭窗口
-    ["<C-u>"] = "preview_scrolling_up",         -- 预览窗口上滚
-    ["<C-d>"] = "preview_scrolling_down",       -- 预览窗口下滚
-  },
-  n = {
-    ["q"] = "close"                             -- 普通模式关闭
-  }
-}
-
--- 环境变量搜索 (需要 telescope-env.nvim)
-map("n", "<leader>fe", "<cmd>Telescope env<CR>", opt) -- 空格 + fe 打开环境变量搜索
-
-return M
