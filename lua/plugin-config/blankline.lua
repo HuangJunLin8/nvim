@@ -51,7 +51,7 @@ ident_blankline.setup({
 
   scope = {
     enabled = true,
-    show_start = true,
+    show_start = false,
     highlight = rainbow_highlight
   },
 

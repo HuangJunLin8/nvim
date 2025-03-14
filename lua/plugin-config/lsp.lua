@@ -59,18 +59,18 @@ local on_attach = function(client, bufnr)
   map("textDocument/rename", 'n', '<leader>rn', vim.lsp.buf.rename, '重命名符号')
   map("textDocument/codeAction", 'n', '<leader>ca', vim.lsp.buf.code_action, '代码操作')
 
-  -- 格式化需要特殊处理
-  if client.supports_method("textDocument/formatting") then
-    vim.keymap.set('n', '<leader>f', function()
-      vim.lsp.buf.format({
-        async = true,
-        filter = function(format_client)
-          -- 只允许特定客户端格式化
-          return format_client.name ~= "tsserver"
-        end
-      })
-    end, { buffer = bufnr, desc = 'LSP: 格式化代码' })
-  end
+  -- 格式化需要特殊处理 (用插件 formatter 处理)
+  --if client.supports_method("textDocument/formatting") then
+  --  vim.keymap.set('n', '<leader>f', function()
+  --    vim.lsp.buf.format({
+  --      async = true,
+  --      filter = function(format_client)
+  --        -- 只允许特定客户端格式化
+  --        return format_client.name ~= "tsserver"
+  --      end
+  --    })
+  --  end, { buffer = bufnr, desc = 'LSP: 格式化代码' })
+  --end
 
   -- 诊断导航
   vim.keymap.set('n', 'gp', vim.diagnostic.open_float, { buffer = bufnr, desc = '诊断信息' })
