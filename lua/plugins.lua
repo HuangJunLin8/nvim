@@ -99,16 +99,6 @@ require("lazy").setup({
   },
 
 
-  -- 竖线提示
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    event = "BufReadPost",
-    main = "ibl",
-    config = function()
-      require("plugin-config.blankline")
-    end
-  },
-
   -- 彩虹括号插件
   {
     "HiPhish/rainbow-delimiters.nvim",
@@ -117,8 +107,18 @@ require("lazy").setup({
       "nvim-treesitter/nvim-treesitter",
       "lukas-reineke/indent-blankline.nvim"
     },
+    --config = function()
+    --  require("plugin-config.rainbow")
+    --end
+  },
+
+  -- 竖线提示
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    event = "BufReadPost",
+    main = "ibl",
     config = function()
-      require("plugin-config.rainbow")
+      require("plugin-config.blankline")
     end
   },
 
