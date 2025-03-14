@@ -7,11 +7,6 @@ end
 -- 获取工具路径工具函数
 local util = require("formatter.util")
 
--- 基础缩进配置 (与格式化工具配合使用)
-vim.opt.expandtab = true -- 使用空格代替制表符
-vim.opt.tabstop = 4 -- 1个Tab显示为2空格
-vim.opt.shiftwidth = 4 -- 自动缩进步长为2空格
-
 -- 文件类型专属配置
 formatter.setup({
   filetype = {
