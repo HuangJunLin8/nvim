@@ -197,15 +197,42 @@ require("lazy").setup({
     event = "LspAttach", -- 当 LSP 附加到缓冲区时加载
     opts = {
       notification = {
-        window = { winblend = 30 } -- 半透明效果
-      }
-    }
+        window = { winblend = 30 }, -- 半透明效果
+      },
+    },
   },
 
   -- 🎮 增强 Lua LSP（专门为 Neovim Lua 开发优化）
   {
     "folke/neodev.nvim",
     ft = "lua", -- 仅 Lua 文件加载
-  }
+  },
+
+  -- =========================================== 编程应用 =====================================================
+
+  -- 代码格式化
+  {
+    "mhartington/formatter.nvim",
+    event = "BufReadPre",
+    config = function()
+      require("plugin-config.formatter")
+    end,
+  },
+
+  -- 浮动终端
+  {
+    "akinsho/toggleterm.nvim",
+    version = "*",
+    priority = 700,
+    --keys = {
+      -- 开关浮动终端
+    --  { "<leader>p", "<cmd>ToggleTerm direction=float<cr>", desc = "开关终端" },
+    --},
+    config = function()
+      require("plugin-config.toggleterm").setup()
+    end,
+  },
+
+  -- 文件执行
 
 })
