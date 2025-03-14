@@ -27,7 +27,6 @@ require("lazy").setup({
     end
   },
 
-
   -- 文件树插件 (快捷键触发加载)
   {
     "nvim-tree/nvim-tree.lua",
@@ -93,9 +92,34 @@ require("lazy").setup({
     end
   },
 
+  -- 更多图标
   {
     "onsails/lspkind.nvim",
     event = "InsertEnter",
+  },
+
+
+  -- 竖线提示
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    event = "BufReadPost",
+    main = "ibl",
+    config = function()
+      require("plugin-config.blankline")
+    end
+  },
+
+  -- 彩虹括号插件
+  {
+    "HiPhish/rainbow-delimiters.nvim",
+    event = "BufReadPost",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "lukas-reineke/indent-blankline.nvim"
+    },
+    config = function()
+      require("plugin-config.rainbow")
+    end
   },
 
   -- =========================================== 核心功能组 =====================================================
@@ -159,17 +183,17 @@ require("lazy").setup({
 
   -- 自动补全
   {
-    "hrsh7th/nvim-cmp",               -- 补全引擎核心
-    event = "InsertEnter",            -- 插入模式时加载
+    "hrsh7th/nvim-cmp",        -- 补全引擎核心
+    event = "InsertEnter",     -- 插入模式时加载
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp",         -- LSP 补全数据源
-      "hrsh7th/cmp-buffer",           -- 缓冲区补全
-      "hrsh7th/cmp-path",             -- 路径补全
-      "hrsh7th/cmp-cmdline",          -- 命令行补全
+      "hrsh7th/cmp-nvim-lsp",  -- LSP 补全数据源
+      "hrsh7th/cmp-buffer",    -- 缓冲区补全
+      "hrsh7th/cmp-path",      -- 路径补全
+      "hrsh7th/cmp-cmdline",   -- 命令行补全
       --"rafamadriz/friendly-snippets", -- 预定义代码片段
-      "hrsh7th/cmp-vsnip",            -- vsnip 引擎集成
-      "hrsh7th/vim-vsnip",             -- vsnip 片段引擎
-      "windwp/nvim-autopairs",    --  括号自动配对增强插件 
+      "hrsh7th/cmp-vsnip",     -- vsnip 引擎集成
+      "hrsh7th/vim-vsnip",     -- vsnip 片段引擎
+      "windwp/nvim-autopairs", --  括号自动配对增强插件
     },
   },
 
