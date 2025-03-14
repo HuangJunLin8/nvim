@@ -152,7 +152,22 @@ require("lazy").setup({
 
   --  -------------------- LSP 增强插件 --------------------------------
 
-  --"hrsh7th/cmp-nvim-lsp",            -- 🔌 补全引擎的 LSP 数据源（若启用需配合 nvim-cmp）
+  -- 自动补全
+  {
+    "hrsh7th/nvim-cmp",               -- 补全引擎核心
+    event = "InsertEnter",            -- 插入模式时加载
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",         -- LSP 补全数据源
+      "hrsh7th/cmp-buffer",           -- 缓冲区补全
+      "hrsh7th/cmp-path",             -- 路径补全
+      "hrsh7th/cmp-cmdline",          -- 命令行补全
+      --"rafamadriz/friendly-snippets", -- 预定义代码片段
+      "hrsh7th/cmp-vsnip",            -- vsnip 引擎集成
+      "hrsh7th/vim-vsnip",             -- vsnip 片段引擎
+      "windwp/nvim-autopairs",    --  括号自动配对增强插件 
+    },
+  },
+
 
   -- 📊 LSP 状态指示器（显示后台操作进度）
   {

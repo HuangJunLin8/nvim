@@ -8,6 +8,6 @@ require("keybindings")
 -- lazy.nvim 插件管理
 require("plugins")
 
-
+-- LSP 插件配置
 require("plugin-config/lsp")
 
