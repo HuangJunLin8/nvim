@@ -22,11 +22,11 @@ end)
 
 --  彩虹括号共享配置
 local rainbow_highlight = {
-  "RainbowRed",    -- 层级1
-  "RainbowYellow", -- 层级2
+  "RainbowCyan",    -- 层级1
+  "RainbowGreen",  -- 层级2
   "RainbowBlue",   -- 层级3
-  "RainbowGreen",  -- 层级4
-  "RainbowCyan"    -- 层级5
+  "RainbowYellow", -- 层级4
+  "RainbowRed",    -- 层级5
 }
 
 --  配置 rainbow-delimiters

@@ -54,6 +54,10 @@ map("t", "<A-l>", [[ <C-\><C-N><C-w>l ]], opt)
 -- visual模式下缩进代码
 map("v", "<", "<gv", opt)
 map("v", ">", ">gv", opt)
+
+map("v", "q", "<Esc>", opt)
+
+
 -- 上下移动选中文本
 map("v", "J", ":move '>+1<CR>gv-gv", opt)
 map("v", "K", ":move '<-2<CR>gv-gv", opt)
