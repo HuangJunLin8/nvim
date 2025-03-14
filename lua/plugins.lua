@@ -1,4 +1,3 @@
-
 -- 安装 lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -14,10 +13,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 
+
 -- 配置插件
 require("lazy").setup({
-
-
   -- 主题插件
   {
     "folke/tokyonight.nvim",
@@ -36,8 +34,8 @@ require("lazy").setup({
       { "<A-m>", "<cmd>NvimTreeToggle<cr>", desc = "文件树切换" }
     },
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function() 
-      require("plugin-config.nvim-tree") 
+    config = function()
+      require("plugin-config.nvim-tree")
     end
   },
 
@@ -59,11 +57,10 @@ require("lazy").setup({
       "nvim-tree/nvim-web-devicons",
       "moll/vim-bbye"
     },
-    config = function() 
-      require("plugin-config.bufferline") 
+    config = function()
+      require("plugin-config.bufferline")
     end
   },
-
 
   -- Lualine 状态栏 (延迟加载优化)
   {
@@ -73,8 +70,8 @@ require("lazy").setup({
       "nvim-tree/nvim-web-devicons",
       "arkav/lualine-lsp-progress"
     },
-    config = function() 
-      require("plugin-config.lualine") 
+    config = function()
+      require("plugin-config.lualine")
     end
   },
 
@@ -91,8 +88,8 @@ require("lazy").setup({
       "nvim-lua/plenary.nvim",
       { "LinArcX/telescope-env.nvim", config = true }  -- 内联配置依赖项
     },
-    config = function() 
-      require("plugin-config.telescope") 
+    config = function()
+      require("plugin-config.telescope")
     end
   },
 
@@ -105,12 +102,12 @@ require("lazy").setup({
       "nvim-tree/nvim-web-devicons",
       "nvim-telescope/telescope.nvim"
     },
-    init = function() 
+    init = function()
       vim.g.loaded_netrw = 1
       vim.g.loaded_netrwPlugin = 1
     end,
-    config = function() 
-      require("plugin-config.dashboard") 
+    config = function()
+      require("plugin-config.dashboard")
     end
   },
 
@@ -123,9 +120,55 @@ require("lazy").setup({
     event = { "BufReadPost", "BufNewFile" },  -- 更精准的触发事件
     build = ":TSUpdate",
     dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
-    config = function() 
-      require("plugin-config.nvim-treesitter") 
+    config = function()
+      require("plugin-config.nvim-treesitter")
     end
+  },
+
+
+  -- =========================================== LSP 插件组 =====================================================
+  -- 🛠️ LSP/DAP/Linter 管理器（用于安装语言服务器）
+  {
+    "williamboman/mason.nvim",
+    cmd = "Mason",  -- 只有输入 :Mason 命令时加载
+    build = ":MasonUpdate",
+  },
+
+  -- 🌉 Mason 与 lspconfig 的桥梁（自动配置已安装的 LSP）
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = { "mason.nvim" }, -- 明确声明依赖
+    event = "User FileOpened", -- 文件打开后延迟加载
+  },
+
+  -- 🔧 Neovim 官方 LSP 客户端配置（基础 LSP 功能）
+  {
+    "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" }, -- 打开文件前加载
+  },
+
+  --"hrsh7th/cmp-nvim-lsp",            -- 🔌 补全引擎的 LSP 数据源（若启用需配合 nvim-cmp）
+
+  -- 📊 LSP 状态指示器（显示后台操作进度）
+  {
+    "j-hui/fidget.nvim",
+    event = "LspAttach", -- 当 LSP 附加到缓冲区时加载
+    opts = {
+      notification = {
+        window = { winblend = 30 } -- 半透明效果
+      }
+    }
+  },
+
+  -- 🎮 增强 Lua LSP（专门为 Neovim Lua 开发优化）
+  {
+    "folke/neodev.nvim",
+    ft = "lua", -- 仅 Lua 文件加载
   }
 
 })
+
+
+
+
+
