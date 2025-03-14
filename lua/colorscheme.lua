@@ -6,7 +6,7 @@ local colorscheme = "tokyonight-moon"
 
 -- 配置 tokyonight.nvim
 require("tokyonight").setup({
-    transparent = true, -- 是否启用透明背景
+    transparent = false, -- 是否启用透明背景
     terminal_colors = true, -- 启用终端颜色
     styles = {
         comments = { italic = true }, -- 注释使用斜体

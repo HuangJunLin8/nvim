@@ -36,16 +36,16 @@ function M.setup()
   end, { desc = "打开终端" })
 
   -- 设置编译运行快捷键（需要插件加载后执行）
-  vim.keymap.set("n", "<A-j>", function()
-    local filename = vim.fn.expand("%:t:r") -- 获取无扩展名的文件名
-    local cmd = string.format(
-      "TermExec cmd='clear; g++ %% -o %s && ./%s || echo \"编译失败\"; rm -f %s' direction=float",
-      filename,
-      filename,
-      filename
-    )
-    vim.cmd(cmd)
-  end, { desc = "编译运行 C++" })
+  -- vim.keymap.set("n", "<A-j>", function()
+  --   local filename = vim.fn.expand("%:t:r") -- 获取无扩展名的文件名
+  --   local cmd = string.format(
+  --     "TermExec cmd='clear; g++ %% -o %s && ./%s || echo \"编译失败\"; rm -f %s' direction=float",
+  --     filename,
+  --     filename,
+  --     filename
+  --   )
+  --   vim.cmd(cmd)
+  -- end, { desc = "编译运行 C++" })
 end
 
 -- 通用终端配置（所有终端实例生效）

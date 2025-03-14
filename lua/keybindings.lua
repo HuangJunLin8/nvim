@@ -3,6 +3,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 
+
 -- rename
 local map = vim.api.nvim_set_keymap
 -- 复用 opt 参数
@@ -81,6 +82,7 @@ map("n", "Q", ":q!<CR>", opt)
 map("i", "jj", "<ESC>", opt)
 
 map("n", "<Leader>s", ":w<CR>", opt) -- 空格 + w 保存
+map("n", "<C-s>", ":w<CR>", opt) -- 空格 + w 保存
 
 -- insert 模式下，跳到行首行尾
 map("i", "<C-h>", "<ESC>I", opt)
@@ -90,3 +92,8 @@ map("i", "<C-l>", "<ESC>A", opt)
 -- 插件内部快捷键在对应的插件.lua里
 -- 启动插件的快捷键在plugins.lua里
 
+-- 普通模式：注释当前行（等效于 gcc）
+vim.keymap.set('n', '<C-_>', 'gcc', { remap = true, desc = 'Toggle comment line' })
+
+-- 可视模式：注释选中行（等效于 gc）
+vim.keymap.set('v', '<C-_>', 'gc', { remap = true, desc = 'Toggle comment selection' })

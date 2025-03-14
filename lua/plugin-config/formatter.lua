@@ -35,7 +35,7 @@ formatter.setup({
           exe = "stylua",
           args = {
             "--indent-type=Spaces",
-            "--indent-width=2",
+            "--indent-width=4",
             "-",
           },
           stdin = true,
