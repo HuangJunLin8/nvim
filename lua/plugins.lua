@@ -16,13 +16,14 @@ vim.opt.rtp:prepend(lazypath)
 
 -- 配置插件
 require("lazy").setup({
+  -- =========================================== 界面美化组 =====================================================
+  --
   -- 主题插件
   {
     "folke/tokyonight.nvim",
-    lazy = false,  -- 主题需要立即加载
-    priority = 1000,  -- 设置高优先级以确保主题优先加载
+    priority = 1000, -- 设置高优先级以确保主题优先加载
     config = function()
-      require("colorscheme") -- 独立颜色配置文件
+      require("colorscheme")
     end
   },
 
@@ -48,14 +49,14 @@ require("lazy").setup({
       { "<leader>h", "<cmd>BufferLineCyclePrev<cr>", desc = "左标签页" },
       { "<leader>l", "<cmd>BufferLineCycleNext<cr>", desc = "右标签页" },
       { "<leader>w", "<cmd>Bdelete!<cr>", desc = "关闭标签页" },
-      { "<leader>bl", "<cmd>BufferLineCloseRight<cr>", desc = "闭右侧所有标签页（不含当前"},
-      { "<leader>bh", "<cmd>BufferLineCloseLeft<cr>", desc = "关闭左侧所有标签页（不含当前）"},
-      { "<leader>bc", "<cmd>BufferLinePickClose<cr>", desc = "交互式选择关闭目标标签页"}
+      { "<leader>bl", "<cmd>BufferLineCloseRight<cr>", desc = "闭右侧所有标签页（不含当前" },
+      { "<leader>bh", "<cmd>BufferLineCloseLeft<cr>", desc = "关闭左侧所有标签页（不含当前）" },
+      { "<leader>bc", "<cmd>BufferLinePickClose<cr>", desc = "交互式选择关闭目标标签页" }
     },
-    event = "BufEnter",  -- 保留事件触发作为备用加载条件
+    event = "BufEnter", -- 保留事件触发作为备用加载条件
     dependencies = {
+      "moll/vim-bbye",
       "nvim-tree/nvim-web-devicons",
-      "moll/vim-bbye"
     },
     config = function()
       require("plugin-config.bufferline")
@@ -75,7 +76,24 @@ require("lazy").setup({
     end
   },
 
+  -- Dashboard 启动页 (VimEnter 事件触发)
+  {
+    "nvimdev/dashboard-nvim",
+    event = "VimEnter",
+    dependencies = {
+      "nvim-telescope/telescope.nvim"
+    },
+    init = function()
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
+      vim.opt.showtabline = 0
+    end,
+    config = function()
+      require("plugin-config.dashboard")
+    end
+  },
 
+  -- =========================================== 核心功能组 =====================================================
   -- Telescope 搜索套件 (快捷键核心触发)
   {
     "nvim-telescope/telescope.nvim",
@@ -86,7 +104,7 @@ require("lazy").setup({
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
-      { "LinArcX/telescope-env.nvim", config = true }  -- 内联配置依赖项
+      { "LinArcX/telescope-env.nvim", config = true } -- 内联配置依赖项
     },
     config = function()
       require("plugin-config.telescope")
@@ -94,30 +112,13 @@ require("lazy").setup({
   },
 
 
-  -- Dashboard 启动页 (VimEnter 事件触发)
-  {
-    "nvimdev/dashboard-nvim",
-    event = "VimEnter",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-      "nvim-telescope/telescope.nvim"
-    },
-    init = function()
-      vim.g.loaded_netrw = 1
-      vim.g.loaded_netrwPlugin = 1
-    end,
-    config = function()
-      require("plugin-config.dashboard")
-    end
-  },
-
   -- Treesitter 语法高亮 (混合触发策略)
   {
     "nvim-treesitter/nvim-treesitter",
     keys = {
-      { "<leader>ts", "<cmd>TSUpdate<cr>", desc = "更新语法" }  -- 添加实用快捷键
+      { "<leader>ts", "<cmd>TSUpdate<cr>", desc = "更新语法" }
     },
-    event = { "BufReadPost", "BufNewFile" },  -- 更精准的触发事件
+    event = { "BufReadPost", "BufNewFile" }, -- 更精准的触发事件
     build = ":TSUpdate",
     dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
     config = function()
@@ -126,26 +127,30 @@ require("lazy").setup({
   },
 
 
-  -- =========================================== LSP 插件组 =====================================================
-  -- 🛠️ LSP/DAP/Linter 管理器（用于安装语言服务器）
+  -- =========================================== LSP 全家桶 =====================================================
+  --  -------------------- LSP 核心插件 --------------------------------
+  -- 🛠️ LSP/DAP/Linter 管理器
   {
     "williamboman/mason.nvim",
-    cmd = "Mason",  -- 只有输入 :Mason 命令时加载
+    cmd = "Mason", -- 只有输入 :Mason 命令时加载
     build = ":MasonUpdate",
+    priority = 900,
   },
 
   -- 🌉 Mason 与 lspconfig 的桥梁（自动配置已安装的 LSP）
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "mason.nvim" }, -- 明确声明依赖
-    event = "User FileOpened", -- 文件打开后延迟加载
+    event = "User FileOpened",       -- 文件打开后延迟加载
   },
 
-  -- 🔧 Neovim 官方 LSP 客户端配置（基础 LSP 功能）
+  -- 🔧 Neovim 官方 LSP 配置
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" }, -- 打开文件前加载
   },
+
+  --  -------------------- LSP 增强插件 --------------------------------
 
   --"hrsh7th/cmp-nvim-lsp",            -- 🔌 补全引擎的 LSP 数据源（若启用需配合 nvim-cmp）
 
@@ -167,8 +172,3 @@ require("lazy").setup({
   }
 
 })
-
-
-
-
-
