@@ -2,7 +2,7 @@ local mason = require('mason')
 local mason_lsp = require('mason-lspconfig')
 local lsp = require('lspconfig')
 local cmp = require('cmp')
-
+local lspkind = require('lspkind')
 
 -- =============================== LSP 核心配置 ===============================
 -- :Mason 包管理器
@@ -95,6 +95,73 @@ for _, server in ipairs(servers) do
   })
 end
 
+-- =============================== LSP ui 美化 ================================
+-- 诊断图标美化
+vim.diagnostic.config({
+  virtual_text = true,
+  signs = true,
+  -- 在输入模式下也更新提示，设置为 true 也许会影响性能
+  update_in_insert = true,
+})
+local signs = { Error = "", Warn = "", Hint = "", Info = "" }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
+
+-- 诊断延时
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  callback = function()
+    local ft = vim.bo.filetype
+    local delays = {
+      lua = 200,
+      python = 300,
+      javascript = 400,
+      _ = 500 -- 默认值
+    }
+    vim.diagnostic.config({
+      virtual_text = { delay = delays[ft] or delays._ }
+    })
+  end
+})
+
+
+-- 更多小图标
+require('lspkind').init({
+  mode = 'symbol_text',
+  preset = 'codicons',
+
+  -- default: {}
+  symbol_map = {
+    Text = "󰉿",
+    Method = "󰆧",
+    Function = "󰊕",
+    Constructor = "",
+    Field = "󰜢",
+    Variable = "󰀫",
+    Class = "󰠱",
+    Interface = "",
+    Module = "",
+    Property = "󰜢",
+    Unit = "󰑭",
+    Value = "󰎠",
+    Enum = "",
+    Keyword = "󰌋",
+    Snippet = "",
+    Color = "󰏘",
+    File = "󰈙",
+    Reference = "󰈇",
+    Folder = "󰉋",
+    EnumMember = "",
+    Constant = "󰏿",
+    Struct = "󰙅",
+    Event = "",
+    Operator = "󰆕",
+    TypeParameter = "",
+  },
+})
 
 
 -- =============================== LSP 增强配置 ===============================
@@ -173,19 +240,57 @@ local mapping = {
 }
 
 cmp.setup({
+  -- ▼ 代码片段引擎配置 ▼
   snippet = {
     expand = function(args)
       vim.fn["vsnip#anonymous"](args.body) -- 仅启用 vsnip
     end,
   },
+
+  -- ▼ 补全源配置 ▼
   sources = cmp.config.sources({
     { name = "nvim_lsp", priority = 1000 }, -- 最高优先级
     { name = "vsnip",    priority = 900 },  -- 代码片段
     { name = "buffer",   priority = 750 },  -- 缓冲区内容
     { name = "path",     priority = 500 },  -- 文件路径
   }),
+
+  -- ▼ 快捷键映射 ▼
   mapping = mapping,
 
+  -- ▼ 图标格式化配置 ▼
+  formatting = {
+    expandable_indicator = true,         -- 显示可扩展代码片段标记
+    fields = { "abbr", "kind", "menu" }, -- 显示顺序和字段
+
+    format = lspkind.cmp_format({
+      mode = "symbol_text", -- 显示图标 + 文本
+      --mode = "symbol", -- 显示图标 + 文本
+      maxwidth = {
+        menu = 50, -- 菜单最大宽度
+        abbr = 50 -- 补全项最大宽度
+      },
+      ellipsis_char = "…", -- 截断符号
+      show_labelDetails = true,
+      before = function(entry, vim_item)
+        -- 动态加载检测
+        if not package.loaded["lspkind"] then
+          require("lspkind").init()
+        end
+
+        -- 添加来源类型图标
+--        vim_item.menu = ({
+--          nvim_lsp = " ",
+--          vsnip = " ",
+--          buffer = "📑",
+--          path = "📁"
+--         })[entry.source.name]
+        return vim_item
+      end
+    })
+  },
+
+  -- ▼ 实验性功能 ▼
   experimental = {
     ghost_text = true, -- 幽灵文本预览
     native_menu = false
@@ -276,7 +381,6 @@ lsp.lua_ls.setup({
     }
   }
 })
-
 
 
 -- 📊 LSP 状态指示器（显示后台操作进度）
