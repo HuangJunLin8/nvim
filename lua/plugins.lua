@@ -260,6 +260,25 @@ require("lazy").setup({
         -- end,
     },
 
+    -- 快速跳转
+    {
+        "folke/flash.nvim",
+        event = "VeryLazy",
+        keys = {
+            {
+                "g",
+                mode = { "n", "x", "o" },
+                function()
+                    require("flash").jump()
+                end,
+                desc = "Flash 跳转",
+            },
+        },
+        config = function()
+            require("plugin-config.code.flash")
+        end,
+    },
+
     -- =============================================== 代码调试 ============================================
     -- 调试器
     {
