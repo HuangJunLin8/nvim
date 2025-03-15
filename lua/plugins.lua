@@ -264,6 +264,7 @@ require("lazy").setup({
         config = function()
             -- DAP 配置代码将在下一步添加
             local dap = require("dap")
+            local dapui = require("dapui")
 
             -- 配置 codelldb 适配器
             dap.adapters.codelldb = {
@@ -288,7 +289,7 @@ require("lazy").setup({
                     cwd = "${workspaceFolder}",
                     stopOnEntry = false,
                     args = {},
-                    -- environment = {},
+                    environment = {},
                     externalConsole = false,
                 },
             }
@@ -304,7 +305,7 @@ require("lazy").setup({
                             { id = "breakpoints", size = 0.1 }, -- 断点列表
                             -- { id = "stacks", size = 0.25 },  -- 调用栈
                         },
-                        size = 50, -- 面板宽度
+                        size = 35, -- 面板宽度
                         position = "left", -- 面板位置
                     },
 
@@ -319,6 +320,17 @@ require("lazy").setup({
                     },
                 },
             })
+
+            -- 自动打开 UI
+            dap.listeners.before.launch.event_terminated = function()
+                dapui.open()
+            end
+            dap.listeners.before.event_terminated["dapui_config"] = function()
+                dapui.close()
+            end
+            dap.listeners.before.event_exited["dapui_config"] = function()
+                dapui.close()
+            end
 
             -- 虚拟文本: 实时显示变量值
             require("nvim-dap-virtual-text").setup({
@@ -356,17 +368,6 @@ require("lazy").setup({
                     return "🐞 " .. variable.name .. " = " .. value
                 end,
             })
-
-            -- 自动打开 UI
-            dap.listeners.before.launch.event_terminated = function()
-                dapui.open()
-            end
-            dap.listeners.before.event_terminated["dapui_config"] = function()
-                dapui.close()
-            end
-            dap.listeners.before.event_exited["dapui_config"] = function()
-                dapui.close()
-            end
 
             -- 智能检测构建系统
             local function detect_build_system()
@@ -418,14 +419,14 @@ require("lazy").setup({
                     stdout_buffered = true,
                     on_stdout = function(_, data)
                         if data then
-                            vim.notify("here1", vim.log.levels.INFO)
-                            -- vim.notify(table.concat(data, "\n"), vim.log.levels.INFO)
+                            -- vim.notify("here1", vim.log.levels.INFO)
+                            vim.notify(table.concat(data, "\n"), vim.log.levels.INFO)
                         end
                     end,
                     on_stderr = function(_, data)
                         if data then
-                            vim.notify("here2", vim.log.levels.INFO)
-                            -- vim.notify(table.concat(data, "\n"), vim.log.levels.ERROR)
+                            -- vim.notify("here2", vim.log.levels.INFO)
+                            vim.notify(table.concat(data, "\n"), vim.log.levels.ERROR)
                         end
                     end,
                     on_exit = function(_, code)
@@ -465,8 +466,8 @@ require("lazy").setup({
             end
 
             -- 设置调试快捷键
-            vim.keymap.set("n", "<F5>", dap.continue)
-            -- vim.keymap.set("n", "<F5>", auto_debug)
+            -- vim.keymap.set("n", "<F5>", dap.continue)
+            vim.keymap.set("n", "<F5>", auto_debug)
             vim.keymap.set("n", "<F9>", dap.toggle_breakpoint)
             vim.keymap.set("n", "<F10>", dap.step_over)
             vim.keymap.set("n", "<F11>", dap.step_into)
