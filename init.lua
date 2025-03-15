@@ -8,4 +8,4 @@ require("keybindings")
 require("plugins")
 
 -- LSP 插件配置
-require("plugin-config/lsp")
+require("plugin-config.lsp.init")
