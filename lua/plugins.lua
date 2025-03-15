@@ -15,7 +15,6 @@ vim.opt.rtp:prepend(lazypath)
 -- 配置插件
 require("lazy").setup({
     -- =========================================== 界面美化组 =====================================================
-    --
     -- 主题插件
     {
         "folke/tokyonight.nvim",
@@ -167,13 +166,18 @@ require("lazy").setup({
         event = "User FileOpened", -- 文件打开后延迟加载
     },
 
-    -- 🔧 Neovim 官方 LSP 配置
+    -- LSP 配置
     {
         "neovim/nvim-lspconfig",
         event = { "BufReadPre", "BufNewFile" }, -- 打开文件前加载
+        dependencies = {
+            "j-hui/fidget.nvim",  -- 状态指示
+            "folke/neodev.nvim",  -- neovim 开发
+        },
+        config = function()
+            require("plugin-config.lsp.init")
+        end,
     },
-
-    --  -------------------- LSP 增强插件 --------------------------------
 
     -- 自动补全
     {
@@ -189,24 +193,22 @@ require("lazy").setup({
             "hrsh7th/vim-vsnip", -- vsnip 片段引擎
             "windwp/nvim-autopairs", --  括号自动配对增强插件
         },
+        config = function()
+            require("plugin-config.lsp.cmp")
+        end,
     },
 
-    -- 📊 LSP 状态指示器（显示后台操作进度）
-    {
-        "j-hui/fidget.nvim",
-        event = "LspAttach", -- 当 LSP 附加到缓冲区时加载
-        opts = {
-            notification = {
-                window = { winblend = 30 }, -- 半透明效果
-            },
-        },
-    },
+    -- -- 📊 LSP 状态指示器（显示后台操作进度）
+    -- {
+    --     "j-hui/fidget.nvim",
+    --     event = "LspAttach", -- 当 LSP 附加到缓冲区时加载
+    -- },
 
-    -- 🎮 增强 Lua LSP（专门为 Neovim Lua 开发优化）
-    {
-        "folke/neodev.nvim",
-        ft = "lua", -- 仅 Lua 文件加载
-    },
+    -- -- 🎮 增强 Lua LSP（专门为 Neovim Lua 开发优化）
+    -- {
+    --     "folke/neodev.nvim",
+    --     ft = "lua", -- 仅 Lua 文件加载
+    -- },
 
     -- =========================================== 编程应用 =====================================================
 

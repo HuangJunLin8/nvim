@@ -69,6 +69,7 @@ formatter.setup({
     cpp = {
       function()
         return {
+          -- 缩进在 ~/.clang-format  里面修改
           exe = "clang-format",
           args = {
             "--assume-filename=." .. vim.fn.expand("%:e"),
