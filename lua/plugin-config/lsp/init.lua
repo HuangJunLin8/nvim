@@ -9,7 +9,6 @@ require("plugin-config.lsp.lsp_ui")
 --  Neovim Lua 开发优化
 require("neodev").setup()
 
-
 -- lspconfig修改基础配置:   自定义快捷键映射
 local on_attach = function(client, bufnr)
     -- 统一键盘映射函数（带服务器能力检查）
@@ -75,11 +74,13 @@ for _, server in ipairs(servers) do
 end
 
 
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 
+-- lua 专属配置
 lsp.lua_ls.setup({
     on_attach = on_attach,
-    --capabilities = capabilities,
+    capabilities = capabilities,
     settings = {
         Lua = {
             runtime = { version = "LuaJIT" },
@@ -103,3 +104,34 @@ lsp.lua_ls.setup({
 })
 
 
+-- Pyright 专属配置
+lsp.pyright.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+        pyright = {
+            disableLanguageServices = false, -- 核心功能开关
+            disableOrganizeImports = false, -- 自动整理导入
+        },
+        python = {
+            analysis = {
+                autoSearchPaths = true, -- 自动识别项目结构
+                diagnosticMode = "workspace", -- 更智能的跨文件诊断
+                typeCheckingMode = "basic", -- 类型检查强度：strict|basic|off
+                stubPath = "./stubs", -- 自定义类型存根路径（无需绝对路径）
+
+                -- 高级诊断控制（按需添加）
+                diagnosticSeverityOverrides = {
+                    reportUnusedImport = "warning",
+                    reportMissingImports = "error",
+                    reportUndefinedVariable = "warning",
+                },
+
+                -- 忽略特定类型的错误（正则表达式）
+                ignore = { "Django*", "Flask*" }, -- 忽略框架相关误报
+            },
+        },
+    },
+    -- 可选：文件类型关联
+    filetypes = { "python", "django", "jinja.html" },
+})

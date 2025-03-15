@@ -79,8 +79,9 @@ ident_blankline.setup({
   },
 
   scope = {
-    enabled = true,
+    enabled = false,
     show_start = false,
+    show_end = false,
     highlight = rainbow_highlight,
   },
 

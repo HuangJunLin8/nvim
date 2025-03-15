@@ -64,7 +64,7 @@ require("lazy").setup({
         event = "VeryLazy",
         dependencies = {
             "nvim-tree/nvim-web-devicons",
-            "arkav/lualine-lsp-progress",
+            -- "arkav/lualine-lsp-progress",  -- 不在底部栏显示进度条（用fidget ）
         },
         config = function()
             require("plugin-config.ui.lualine")
@@ -171,6 +171,7 @@ require("lazy").setup({
         "neovim/nvim-lspconfig",
         event = { "BufReadPre", "BufNewFile" }, -- 打开文件前加载
         dependencies = {
+            -- 注意： 若打开lualine.lua 里的 lsp-progress 那两行加载图标配置, 这个状态指示就不会生效
             "j-hui/fidget.nvim", -- 状态指示
             "folke/neodev.nvim", -- neovim 开发
         },
@@ -248,6 +249,17 @@ require("lazy").setup({
         event = "VeryLazy",
     },
 
+    -- 自动项目根目录
+    {
+        "airblade/vim-rooter",
+        event = { "VimEnter", "BufReadPost" },
+        -- config = function()
+        -- 可选：配置触发模式 (默认已很智能，通常不需要额外配置)
+        -- vim.g.rooter_patterns = { ".git", "pyproject.toml", "setup.py", "requirements.txt" } -- 添加你的项目标识文件
+        -- vim.g.rooter_manual_only = 0 -- 0=自动切换，1=手动触发
+        -- end,
+    },
+
     -- =============================================== 代码调试 ============================================
     -- 调试器
     {
@@ -285,6 +297,35 @@ require("lazy").setup({
                     require("mason-nvim-dap").default_setup(config)
                 end,
             },
+        },
+    },
+
+    -- =============================================== python 相关 ============================================
+    -- python 虚拟环境选择
+    {
+        "linux-cultist/venv-selector.nvim",
+        dependencies = {
+            "neovim/nvim-lspconfig",
+            "mfussenegger/nvim-dap",
+            "mfussenegger/nvim-dap-python", --optional
+            -- { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
+        },
+        lazy = false,
+        branch = "regexp", -- This is the regexp branch, use this for the new version
+        config = function()
+            require("venv-selector").setup({
+                settings = {
+                    search = {
+                        my_venvs = {
+                            -- command = "fd python$ /opt/miniconda3/envs/ | grep bin",
+                            command = "fd python$ /opt/miniconda3/envs/ | grep bin | grep -v ipython",
+                        },
+                    },
+                },
+            })
+        end,
+        keys = {
+            { "<leader>cc", "<cmd>VenvSelect<cr>" },
         },
     },
 })

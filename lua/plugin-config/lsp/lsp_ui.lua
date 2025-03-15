@@ -65,23 +65,23 @@ require("lspkind").init({
 })
 
 
--- 📊 LSP 状态指示器（显示后台操作进度）
+--  LSP 状态指示器（显示后台操作进度）
 require("fidget").setup({
-    notification = {
-        -- ▼ 窗口配置 ▼
-        window = {
-            border = "rounded", -- 统一边框样式
-        },
-    },
+    -- notification = {
+    --     -- ▼ 窗口配置 ▼
+    --     -- window = {
+    --         -- border = "rounded", -- 统一边框样式
+    --     -- },
+    -- },
 
-    -- ▼ 进度条配置 ▼
-    progress = {
-        display = {
-            done_icon = "✓", -- 完成图标
-            progress_style = { -- 动画样式
-                pattern = "dots",
-                period = 1,
-            },
-        },
-    },
+    -- -- ▼ 进度条配置 ▼
+    -- progress = {
+    --     display = {
+    --         done_icon = "✓", -- 完成图标
+    --         progress_style = { -- 动画样式
+    --             pattern = "dots",
+    --             period = 1,
+    --         },
+    --     },
+    -- },
 })

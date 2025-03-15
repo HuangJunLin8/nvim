@@ -22,20 +22,22 @@ lualine.setup({
     lualine_c = {
       "filename",
       {
-        "lsp_progress",
-        spinner_symbols = { " ", " ", " ", " ", " ", " " },  -- LSP 加载动画
+        -- "lsp_progress",   -- 配置参考：https://github.com/linrongbin16/lsp-progress.nvim/blob/main/lua/lsp-progress/defaults.lua
+        -- spinner_symbols = { " ", " ", " ", " ", " ", " " },  -- LSP 加载动画
+        -- spinner_symbols = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
+        -- spinner_symbols = { "󰪞 ", "󰪟 ", "󰪠 ", "󰪡 ", "󰪢 ", "󰪣 ", "󰪤 " };
       }
     },
     lualine_x = {
       "filesize",
-      {
-        "fileformat",
-        symbols = {
-          unix = "LF",    -- 统一换行符标识
-          dos = "CRLF",
-          mac = "CR"
-        }
-      },
+      -- {
+      --   "fileformat",
+      --   symbols = {
+      --     unix = "LF",    -- 统一换行符标识
+      --     dos = "CRLF",
+      --     mac = "CR"
+      --   }
+      -- },
       "encoding",
       "filetype"
     },
