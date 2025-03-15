@@ -370,7 +370,14 @@ lsp.lua_ls.setup({
             },
             telemetry = { enable = false },
             diagnostics = {
-                disable = { "missing-fields" }, -- 禁用缺少字段的警告
+                -- 禁用特定类型警告
+                disable = {
+                    "missing-fields", -- 缺少字段警告
+                    "unused-local", -- 未使用的局部变量
+                    -- "unused-vararg", -- 未使用的可变参数
+                    -- "unused-parameter", -- 未使用的函数参数
+                    -- "unused-function", -- 未使用的函数
+                },
             },
         },
     },
