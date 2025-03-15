@@ -33,7 +33,7 @@ require("lazy").setup({
         },
         dependencies = { "nvim-tree/nvim-web-devicons" },
         config = function()
-            require("plugin-config.nvim-tree")
+            require("plugin-config.ui.nvim-tree")
         end,
     },
 
@@ -55,7 +55,7 @@ require("lazy").setup({
             "nvim-tree/nvim-web-devicons",
         },
         config = function()
-            require("plugin-config.bufferline")
+            require("plugin-config.ui.bufferline")
         end,
     },
 
@@ -68,7 +68,7 @@ require("lazy").setup({
             "arkav/lualine-lsp-progress",
         },
         config = function()
-            require("plugin-config.lualine")
+            require("plugin-config.ui.lualine")
         end,
     },
 
@@ -85,7 +85,7 @@ require("lazy").setup({
             vim.opt.showtabline = 0
         end,
         config = function()
-            require("plugin-config.dashboard")
+            require("plugin-config.ui.dashboard")
         end,
     },
 
@@ -114,7 +114,7 @@ require("lazy").setup({
         event = "BufReadPost",
         main = "ibl",
         config = function()
-            require("plugin-config.blankline")
+            require("plugin-config.ui.blankline")
         end,
     },
 
@@ -146,7 +146,7 @@ require("lazy").setup({
         build = ":TSUpdate",
         dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
         config = function()
-            require("plugin-config.nvim-treesitter")
+            require("plugin-config.code.nvim-treesitter")
         end,
     },
 
@@ -215,7 +215,7 @@ require("lazy").setup({
         "mhartington/formatter.nvim",
         event = "BufReadPre",
         config = function()
-            require("plugin-config.formatter")
+            require("plugin-config.code.formatter")
         end,
     },
 
@@ -236,7 +236,7 @@ require("lazy").setup({
         priority = 700,
         --dependencies = { "akinsho/toggleterm.nvim" },
         config = function()
-            require("plugin-config.code_runner")
+            require("plugin-config.code.code_runner")
         end,
     },
 

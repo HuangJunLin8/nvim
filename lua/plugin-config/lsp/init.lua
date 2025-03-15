@@ -68,7 +68,7 @@ for _, server in ipairs(servers) do
 end
 
 
-require("plugin-config.lsp.ui")
+require("plugin-config.lsp.lsp_ui")
 
 -- --------------------------LSP 自动补全---------------------------------------------
 
