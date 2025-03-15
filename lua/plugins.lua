@@ -253,6 +253,13 @@ require("lazy").setup({
         dependencies = {
             "williamboman/mason.nvim",
             "jay-babu/mason-nvim-dap.nvim",
+
+            -- ui 界面
+            "nvim-neotest/nvim-nio",
+            "rcarriga/nvim-dap-ui",
+
+            -- 实时变量提示
+            "theHamsta/nvim-dap-virtual-text",
         },
         config = function()
             -- DAP 配置代码将在下一步添加
@@ -281,51 +288,35 @@ require("lazy").setup({
                     cwd = "${workspaceFolder}",
                     stopOnEntry = false,
                     args = {},
-                    environment = {},
+                    -- environment = {},
                     externalConsole = false,
                 },
             }
 
-            -- 设置调试快捷键
-            vim.keymap.set("n", "<F5>", dap.continue)
-            vim.keymap.set("n", "<F9>", dap.toggle_breakpoint)
-            vim.keymap.set("n", "<F10>", dap.step_over)
-            vim.keymap.set("n", "<F11>", dap.step_into)
-            vim.keymap.set("n", "<F12>", dap.step_out)
-
-            -- 自动打开 UI
-            dap.listeners.before.launch.event_terminated = function()
-                dapui.open()
-            end
-            dap.listeners.before.event_terminated["dapui_config"] = function()
-                dapui.close()
-            end
-            dap.listeners.before.event_exited["dapui_config"] = function()
-                dapui.close()
-            end
-
             -- 自定义 UI 布局（可选）
-            require("dapui").setup({
-                -- 左侧垂直面板
-                {
-                    elements = {
-                        { id = "scopes", size = 0.6 }, -- 变量作用域
-                        { id = "watches", size = 0.3 }, -- 监视表达式
-                        { id = "breakpoints", size = 0.1 }, -- 断点列表
-                        -- { id = "stacks", size = 0.25 },  -- 调用栈
+            dapui.setup({
+                layouts = {
+                    -- 左侧垂直面板
+                    {
+                        elements = {
+                            { id = "scopes", size = 0.6 }, -- 变量作用域
+                            { id = "watches", size = 0.3 }, -- 监视表达式
+                            { id = "breakpoints", size = 0.1 }, -- 断点列表
+                            -- { id = "stacks", size = 0.25 },  -- 调用栈
+                        },
+                        size = 50, -- 面板宽度
+                        position = "left", -- 面板位置
                     },
-                    size = 35, -- 面板宽度
-                    position = "left", -- 面板位置
-                },
 
-                -- 底部水平面板
-                {
-                    elements = {
-                        { id = "repl", size = 0.4 }, -- 调试控制台
-                        { id = "console", size = 0.6 }, -- 程序输出
+                    -- 底部水平面板
+                    {
+                        elements = {
+                            { id = "repl", size = 0.4 }, -- 调试控制台
+                            { id = "console", size = 0.6 }, -- 程序输出
+                        },
+                        size = 8, -- 面板高度
+                        position = "bottom", -- 面板位置
                     },
-                    size = 8, -- 面板高度
-                    position = "bottom", -- 面板位置
                 },
             })
 
@@ -366,6 +357,24 @@ require("lazy").setup({
                 end,
             })
 
+            -- 设置调试快捷键
+            vim.keymap.set("n", "<F5>", dap.continue)
+            vim.keymap.set("n", "<F9>", dap.toggle_breakpoint)
+            vim.keymap.set("n", "<F10>", dap.step_over)
+            vim.keymap.set("n", "<F11>", dap.step_into)
+            vim.keymap.set("n", "<F12>", dap.step_out)
+
+            -- 自动打开 UI
+            dap.listeners.before.launch.event_terminated = function()
+                dapui.open()
+            end
+            dap.listeners.before.event_terminated["dapui_config"] = function()
+                dapui.close()
+            end
+            dap.listeners.before.event_exited["dapui_config"] = function()
+                dapui.close()
+            end
+
             -- 界面快捷键
             vim.keymap.set("n", "<leader>du", dapui.toggle) -- 打开调试界面
             vim.keymap.set("n", "<leader>de", dapui.eval) -- 查看变量的取值
@@ -386,24 +395,5 @@ require("lazy").setup({
                 automatic_installation = true,
             })
         end,
-    },
-
-    -- 调试界面美化
-    {
-        "rcarriga/nvim-dap-ui",
-        event = "VeryLazy",
-        dependencies = {
-            "mfussenegger/nvim-dap",
-            "nvim-neotest/nvim-nio",
-        },
-        config = function()
-            require("dapui").setup()
-        end,
-    },
-    {
-        "theHamsta/nvim-dap-virtual-text",
-        event = "VeryLazy",
-        dependencies = { "mfussenegger/nvim-dap" },
-        config = true,
     },
 })
