@@ -256,6 +256,7 @@ require("lazy").setup({
         config = function()
             -- DAP 配置代码将在下一步添加
             local dap = require("dap")
+            local dapui = require("dapui")
 
             -- 配置 codelldb 适配器
             dap.adapters.codelldb = {
@@ -290,6 +291,29 @@ require("lazy").setup({
             vim.keymap.set("n", "<F10>", dap.step_over)
             vim.keymap.set("n", "<F11>", dap.step_into)
             vim.keymap.set("n", "<F12>", dap.step_out)
+
+            -- 自动打开 UI
+            dap.listeners.before.launch.event_terminated = function()
+                dapui.open()
+            end
+            dap.listeners.before.event_terminated["dapui_config"] = function()
+                dapui.close()
+            end
+            dap.listeners.before.event_exited["dapui_config"] = function()
+                dapui.close()
+            end
+
+            -- 虚拟文本配置（显示变量值）
+            require("nvim-dap-virtual-text").setup({
+                commented = true,
+                display_callback = function(variable, buf, stackframe)
+                    return " ➤ " .. variable.name .. " = " .. variable.value
+                end,
+            })
+
+            -- 界面快捷键
+            vim.keymap.set("n", "<leader>du", dapui.toggle)   -- 打开调试界面
+            vim.keymap.set("n", "<leader>de", dapui.eval)     -- 查看变量的取值
         end,
     },
 
@@ -308,4 +332,20 @@ require("lazy").setup({
         end,
     },
 
-  })
+    -- 调试界面美化
+    {
+        "rcarriga/nvim-dap-ui",
+        dependencies = {
+            "mfussenegger/nvim-dap",
+            "nvim-neotest/nvim-nio",
+        },
+        config = function()
+            require("dapui").setup()
+        end,
+    },
+    {
+        "theHamsta/nvim-dap-virtual-text",
+        dependencies = { "mfussenegger/nvim-dap" },
+        config = true,
+    },
+})
