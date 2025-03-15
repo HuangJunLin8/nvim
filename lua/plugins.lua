@@ -240,8 +240,72 @@ require("lazy").setup({
         end,
     },
 
+    -- 代码注释  快捷键在keybinds
     {
         "tpope/vim-commentary",
         event = "VeryLazy",
     },
-})
+
+    -- 调试器
+    {
+        "mfussenegger/nvim-dap",
+        dependencies = {
+            "williamboman/mason.nvim",
+            "jay-babu/mason-nvim-dap.nvim",
+        },
+        config = function()
+            -- DAP 配置代码将在下一步添加
+            local dap = require("dap")
+
+            -- 配置 codelldb 适配器
+            dap.adapters.codelldb = {
+                type = "server",
+                port = "${port}",
+                executable = {
+                    command = vim.fn.stdpath("data") .. "/mason/bin/codelldb",
+                    args = { "--port", "${port}" },
+                },
+            }
+
+            -- C++ 调试配置
+            dap.configurations.cpp = {
+                {
+                    name = "Launch",
+                    type = "codelldb",
+                    request = "launch",
+                    program = function()
+                        return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+                    end,
+                    cwd = "${workspaceFolder}",
+                    stopOnEntry = false,
+                    args = {},
+                    environment = {},
+                    externalConsole = false,
+                },
+            }
+
+            -- 设置调试快捷键
+            vim.keymap.set("n", "<F5>", dap.continue)
+            vim.keymap.set("n", "<F9>", dap.toggle_breakpoint)
+            vim.keymap.set("n", "<F10>", dap.step_over)
+            vim.keymap.set("n", "<F11>", dap.step_into)
+            vim.keymap.set("n", "<F12>", dap.step_out)
+        end,
+    },
+
+    -- 调试适配器管理
+    {
+        "jay-babu/mason-nvim-dap.nvim",
+        dependencies = {
+            "williamboman/mason.nvim",
+            "mfussenegger/nvim-dap",
+        },
+        config = function()
+            require("mason-nvim-dap").setup({
+                ensure_installed = { "codelldb" }, -- 自动安装 codelldb
+                automatic_installation = true,
+            })
+        end,
+    },
+
+  })
