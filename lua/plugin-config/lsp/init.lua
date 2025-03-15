@@ -77,7 +77,7 @@ end
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 
--- lua 专属配置
+-- lua 诊断配置
 lsp.lua_ls.setup({
     on_attach = on_attach,
     capabilities = capabilities,
@@ -104,7 +104,7 @@ lsp.lua_ls.setup({
 })
 
 
--- Pyright 专属配置
+-- python 诊断配置
 lsp.pyright.setup({
     on_attach = on_attach,
     capabilities = capabilities,
@@ -117,14 +117,14 @@ lsp.pyright.setup({
             analysis = {
                 autoSearchPaths = true, -- 自动识别项目结构
                 diagnosticMode = "workspace", -- 更智能的跨文件诊断
-                typeCheckingMode = "basic", -- 类型检查强度：strict|basic|off
+                typeCheckingMode = "off", -- 类型检查强度：strict|basic|off
                 stubPath = "./stubs", -- 自定义类型存根路径（无需绝对路径）
 
                 -- 高级诊断控制（按需添加）
                 diagnosticSeverityOverrides = {
-                    reportUnusedImport = "warning",
+                    reportUnusedImport = "info",
                     reportMissingImports = "error",
-                    reportUndefinedVariable = "warning",
+                    -- reportUndefinedVariable = "warning",
                 },
 
                 -- 忽略特定类型的错误（正则表达式）
