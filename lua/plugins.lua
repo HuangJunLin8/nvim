@@ -171,8 +171,8 @@ require("lazy").setup({
         "neovim/nvim-lspconfig",
         event = { "BufReadPre", "BufNewFile" }, -- 打开文件前加载
         dependencies = {
-            "j-hui/fidget.nvim",  -- 状态指示
-            "folke/neodev.nvim",  -- neovim 开发
+            "j-hui/fidget.nvim", -- 状态指示
+            "folke/neodev.nvim", -- neovim 开发
         },
         config = function()
             require("plugin-config.lsp.init")
@@ -252,7 +252,7 @@ require("lazy").setup({
     -- 调试器
     {
         "mfussenegger/nvim-dap",
-        event = "VeryLazy",
+        event = { "BufReadPost", "BufNewFile" },
         dependencies = {
             "williamboman/mason.nvim",
             "jay-babu/mason-nvim-dap.nvim",
@@ -272,16 +272,19 @@ require("lazy").setup({
     -- 调试适配器管理
     {
         "jay-babu/mason-nvim-dap.nvim",
-        event = "VeryLazy",
-        dependencies = {
-            "williamboman/mason.nvim",
-            "mfussenegger/nvim-dap",
+        lazy = true,
+        opts = {
+            ensure_installed = {
+                "codelldb", -- C/C++ 调试器
+                "debugpy", --  Python 调试器
+            },
+            automatic_installation = true,
+            handlers = {
+                function(config)
+                    -- 统一处理所有适配器配置
+                    require("mason-nvim-dap").default_setup(config)
+                end,
+            },
         },
-        config = function()
-            require("mason-nvim-dap").setup({
-                ensure_installed = { "codelldb" }, -- 自动安装 codelldb
-                automatic_installation = true,
-            })
-        end,
     },
 })

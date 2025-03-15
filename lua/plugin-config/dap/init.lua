@@ -1,4 +1,5 @@
-require("plugin-config.dap.cpp_debug")
+require("plugin-config.dap.cpp")
+require("plugin-config.dap.python")
 
 local dapui = require("dapui")
 -- 自定义 UI 布局（可选）
@@ -77,13 +78,22 @@ require("nvim-dap-virtual-text").setup({
     end,
 })
 
-
-
 -- 设置调试快捷键
+vim.keymap.set("n", "<A-u>", dap.continue)
+
+vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint)
 vim.keymap.set("n", "<F9>", dap.toggle_breakpoint)
+
 vim.keymap.set("n", "<F10>", dap.step_over)
+vim.keymap.set("n", "<A-o>", dap.step_over)
+
 vim.keymap.set("n", "<F11>", dap.step_into)
+vim.keymap.set("n", "<A-i>", dap.step_into)
+
 vim.keymap.set("n", "<F12>", dap.step_out)
+vim.keymap.set("n", "<A-p>", dap.step_out)
+
+-- vim.keymap.set("n", "<leader>dw", dap.widgets.sidebar.watches.add())  --添加监视
 
 -- 界面快捷键
 vim.keymap.set("n", "<leader>du", dapui.toggle) -- 打开调试界面

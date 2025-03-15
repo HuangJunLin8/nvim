@@ -18,7 +18,8 @@ dap.configurations.cpp = {
         type = "codelldb",
         request = "launch",
         program = function()
-            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+            -- return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+            return vim.fn.input("执行文件路径: ", vim.fn.getcwd() .. "/", "file")
         end,
 
         cwd = "${workspaceFolder}",
@@ -108,8 +109,6 @@ local function auto_debug()
             -- vim.notify(program, vim.log.levels.INFO)
 
             -- 更新调试配置
-            ---@class dap.Configuration
-            ---@field program string|function
             dap.configurations.cpp = dap.configurations.cpp or {}
             dap.configurations.cpp[1].program = program
 
