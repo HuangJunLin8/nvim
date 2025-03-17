@@ -23,21 +23,66 @@ local on_attach = function(client, bufnr)
         end
     end
 
-    --  基础导航
-    map("textDocument/definition", "n", "gd", vim.lsp.buf.definition, "跳转到定义")
-    map("textDocument/declaration", "n", "gD", vim.lsp.buf.declaration, "跳转到声明")
-    map("textDocument/implementation", "n", "gi", vim.lsp.buf.implementation, "跳转到实现")
-    map("textDocument/references", "n", "gr", vim.lsp.buf.references, "显示引用")
+    --  ------------------------------快捷键配置: 基础版本-------------------------------
+    -- 基础导航
+    -- map("textDocument/definition", "n", "gd", vim.lsp.buf.definition, "跳转到定义")
+    -- map("textDocument/declaration", "n", "gD", vim.lsp.buf.declaration, "跳转到声明")
+    -- map("textDocument/implementation", "n", "gi", vim.lsp.buf.implementation, "跳转到实现")
+    -- map("textDocument/references", "n", "gr", vim.lsp.buf.references, "显示引用")
 
     --  信息查看
-    map("textDocument/hover", "n", "gh", vim.lsp.buf.hover, "悬浮文档")
-    --map("textDocument/diagnostic", 'n', 'gp', vim.diagnostic.open_float, '诊断信息')
+    -- map("textDocument/hover", "n", "gh", vim.lsp.buf.hover, "悬浮文档")
+    -- 诊断导航
+    -- vim.keymap.set("n", "gp", vim.diagnostic.open_float, { buffer = bufnr, desc = "诊断信息" })
+    -- vim.keymap.set("n", "gk", vim.diagnostic.goto_prev, { buffer = bufnr, desc = "上一个诊断" })
+    -- vim.keymap.set("n", "gj", vim.diagnostic.goto_next, { buffer = bufnr, desc = "下一个诊断" })
 
     --  代码操作
-    map("textDocument/rename", "n", "<leader>rn", vim.lsp.buf.rename, "重命名符号")
-    map("textDocument/codeAction", "n", "<leader>ca", vim.lsp.buf.code_action, "代码操作")
+    -- map("textDocument/rename", "n", "<leader>rn", vim.lsp.buf.rename, "重命名符号")
+    -- map("textDocument/codeAction", "n", "<leader>ca", vim.lsp.buf.code_action, "代码操作")
 
-    -- 格式化需要特殊处理 (用插件 formatter 处理)
+    --  高级用法
+    -- 类型定义（需要服务器支持）
+    --map("textDocument/typeDefinition", 'n', '<space>D', vim.lsp.buf.type_definition, '类型定义')
+
+    -- ------------------------------快捷键配置: lspsaga 美化版本--------------------------------------------
+    -- 基础导航
+    map("textDocument/definition", "n", "gd", "<cmd>Lspsaga preview_definition<CR>", "跳转到定义")
+    map("textDocument/references", "n", "gr", "<cmd>Lspsaga lsp_finder<CR>", "显示引用")
+
+    --  信息查看
+    map("textDocument/hover", "n", "gh", "<cmd>Lspsaga hover_doc<cr>", "悬浮文档")
+
+    -- 诊断导航
+    vim.keymap.set("n", "gp", "<cmd>Lspsaga show_line_diagnostics<CR>", { buffer = bufnr, desc = "诊断信息" })
+    vim.keymap.set("n", "gk", "<cmd>Lspsaga diagnostic_jump_prev<cr>", { buffer = bufnr, desc = "上一个诊断" })
+    vim.keymap.set("n", "gj", "<cmd>Lspsaga diagnostic_jump_next<cr>", { buffer = bufnr, desc = "下一个诊断" })
+
+    --  代码操作
+    map("textDocument/rename", "n", "<leader>rn", "<cmd>Lspsaga rename<CR>", "重命名符号") -- 调用 lspsaga 美化
+    map("textDocument/codeAction", "n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", "代码操作") -- 调用 lspsaga 美化
+
+    -- 额外功能
+    vim.keymap.set("n", "<leader>p", "<cmd>Lspsaga term_toggle<cr>", { buffer = bufnr, desc = "打开终端" })
+
+    -- 在终端创建时自动设置 jj 退出映射
+    vim.api.nvim_create_autocmd("TermOpen", {
+        pattern = "term://*", -- 匹配所有终端
+        callback = function(args)
+            -- 仅处理 Lspsaga 的浮动终端（根据窗口特征判断）
+            local win_config = vim.api.nvim_win_get_config(0)
+            if win_config.relative ~= "" then -- 浮动窗口特征
+                vim.api.nvim_buf_set_keymap(0, "t", "jj", [[<C-\><C-n>]], {
+                    noremap = true,
+                    silent = true,
+                    nowait = true,
+                    desc = "退出终端模式",
+                })
+            end
+        end,
+    })
+
+    -- 格式化代码 (用插件 formatter 替代)
     --if client.supports_method("textDocument/formatting") then
     --  vim.keymap.set('n', '<leader>f', function()
     --    vim.lsp.buf.format({
@@ -49,15 +94,6 @@ local on_attach = function(client, bufnr)
     --    })
     --  end, { buffer = bufnr, desc = 'LSP: 格式化代码' })
     --end
-
-    -- 诊断导航
-    vim.keymap.set("n", "gp", vim.diagnostic.open_float, { buffer = bufnr, desc = "诊断信息" })
-    vim.keymap.set("n", "gk", vim.diagnostic.goto_prev, { buffer = bufnr, desc = "上一个诊断" })
-    vim.keymap.set("n", "gj", vim.diagnostic.goto_next, { buffer = bufnr, desc = "下一个诊断" })
-
-    --  高级用法
-    -- 类型定义（需要服务器支持）
-    --map("textDocument/typeDefinition", 'n', '<space>D', vim.lsp.buf.type_definition, '类型定义')
 end
 
 -- 加载修改后的lspconfig配置
@@ -73,9 +109,7 @@ for _, server in ipairs(servers) do
     })
 end
 
-
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
 
 -- lua 诊断配置
 lsp.lua_ls.setup({
@@ -102,7 +136,6 @@ lsp.lua_ls.setup({
         },
     },
 })
-
 
 -- python 诊断配置
 lsp.pyright.setup({

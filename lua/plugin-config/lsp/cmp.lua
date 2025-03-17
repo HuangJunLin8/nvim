@@ -2,8 +2,8 @@ local cmp = require("cmp")
 
 local lspkind = require("lspkind")
 
--- 延迟加载代码片段引擎(得启用这个插件才生效)
-vim.g.vsnip_snippet_dir = os.getenv("HOME") .. "/.config/nvim/snippets"
+-- 加载代码片段引擎 (得启用这个插件才生效)
+-- vim.g.vsnip_snippet_dir = os.getenv("HOME") .. "/.config/nvim/snippets"
 
 -- 快捷键配置
 local has_words_before = function()

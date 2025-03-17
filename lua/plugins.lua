@@ -189,7 +189,7 @@ require("lazy").setup({
             "hrsh7th/cmp-buffer", -- 缓冲区补全
             "hrsh7th/cmp-path", -- 路径补全
             "hrsh7th/cmp-cmdline", -- 命令行补全
-            --"rafamadriz/friendly-snippets", -- 预定义代码片段
+            --"rafamadriz/friendly-snippets", -- 预定义代码片段 (cmp.lua 里面也要注释才能关闭这个补全)
             "hrsh7th/cmp-vsnip", -- vsnip 引擎集成
             "hrsh7th/vim-vsnip", -- vsnip 片段引擎
             "windwp/nvim-autopairs", --  括号自动配对增强插件
@@ -197,6 +197,21 @@ require("lazy").setup({
         config = function()
             require("plugin-config.lsp.cmp")
         end,
+    },
+
+    -- LSP 体验增强
+    {
+        "nvimdev/lspsaga.nvim",
+        event = 'LspAttach',
+        config = function()
+            require("lspsaga").setup({
+                vim.keymap.set('n', 'K', '<cmd>Lspsaga hover_doc'),
+            })
+        end,
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter", -- optional
+            "nvim-tree/nvim-web-devicons", -- optional
+        },
     },
 
     -- -- 📊 LSP 状态指示器（显示后台操作进度）
@@ -222,15 +237,15 @@ require("lazy").setup({
         end,
     },
 
-    -- 浮动终端
-    {
-        "akinsho/toggleterm.nvim",
-        version = "*",
-        priority = 700,
-        config = function()
-            require("plugin-config.toggleterm").setup()
-        end,
-    },
+    -- 浮动终端 ( 在 lspsaga 里面配置 ：Lspsaga term_toggle)
+    -- {
+        -- "akinsho/toggleterm.nvim",
+        -- version = "*",
+        -- priority = 700,
+        -- config = function()
+            -- require("plugin-config.ui.toggleterm").setup()
+        -- end,
+    -- },
 
     -- 文件执行
     {
@@ -316,9 +331,9 @@ require("lazy").setup({
             -- vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "WarningMsg" })
 
             -- 绑定快捷键（可选）
-            vim.keymap.set("n", "<Leader>hl", function()
-                require("illuminate").toggle()
-            end, { desc = "切换高亮" })
+            -- vim.keymap.set("n", "<Leader>hl", function()
+                -- require("illuminate").toggle()
+            -- end, { desc = "切换高亮" })
         end,
     },
 

@@ -3,7 +3,7 @@ local M = {}
 
 function M.setup()
   require("toggleterm").setup({
-    size = 15,
+    size = 10,
     open_mapping = nil, -- 禁用插件自带的默认快捷键
     direction = "float",
     float_opts = {
@@ -26,7 +26,6 @@ function M.setup()
       )
       vim.cmd("startinsert!") -- 刚开始自动进入插入模式
     end,
-
   })
 
   -- 打开终端k
