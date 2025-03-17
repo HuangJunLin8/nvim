@@ -44,9 +44,9 @@ require("lazy").setup({
             { "<leader>h", "<cmd>BufferLineCyclePrev<cr>", desc = "左标签页" },
             { "<leader>l", "<cmd>BufferLineCycleNext<cr>", desc = "右标签页" },
             { "<leader>q", "<cmd>Bdelete!<cr>", desc = "关闭标签页" },
-            { "<leader>bl", "<cmd>BufferLineCloseRight<cr>", desc = "闭右侧所有标签页（不含当前" },
-            { "<leader>bh", "<cmd>BufferLineCloseLeft<cr>", desc = "关闭左侧所有标签页（不含当前）" },
-            { "<leader>bc", "<cmd>BufferLinePickClose<cr>", desc = "交互式选择关闭目标标签页" },
+            { "<leader>wl", "<cmd>BufferLineCloseRight<cr>", desc = "闭右侧所有标签页（不含当前" },
+            { "<leader>wh", "<cmd>BufferLineCloseLeft<cr>", desc = "关闭左侧所有标签页（不含当前）" },
+            { "<leader>wc", "<cmd>BufferLinePickClose<cr>", desc = "交互式选择关闭目标标签页" },
         },
         event = "BufEnter", -- 保留事件触发作为备用加载条件
         dependencies = {
@@ -266,7 +266,7 @@ require("lazy").setup({
         event = "VeryLazy",
         keys = {
             {
-                "g",
+                "<leader>j",
                 mode = { "n", "x", "o" },
                 function()
                     require("flash").jump()
@@ -276,6 +276,49 @@ require("lazy").setup({
         },
         config = function()
             require("plugin-config.code.flash")
+        end,
+    },
+
+    -- to do 研究
+    {
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        dependencies = { "nvim-lua/plenary.nvim" },
+    },
+
+    -- 变量高亮
+    {
+        "RRethy/vim-illuminate", -- 官方仓库地址
+        event = "BufReadPost", -- 文件打开后自动加载
+        config = function()
+            -- 基础配置
+            require("illuminate").configure({
+                -- 高亮延迟（毫秒）
+                delay = 150,
+                -- 忽略文件类型
+                filetypes_denylist = {
+                    "dirvish",
+                    "fugitive",
+                    "alpha",
+                    "NvimTree",
+                    "lazy",
+                    "neogitstatus",
+                    "Trouble",
+                    "text",
+                },
+                -- 高亮模式（可选：'underline', 'icon', 'none'）
+                modes = { "n", "v" },
+            })
+
+            -- 自定义高亮颜色（修改为你主题的颜色）
+            -- vim.api.nvim_set_hl(0, "IlluminatedWordText", { link = "Visual" })
+            -- vim.api.nvim_set_hl(0, "IlluminatedWordRead", { link = "IncSearch" })
+            -- vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "WarningMsg" })
+
+            -- 绑定快捷键（可选）
+            vim.keymap.set("n", "<Leader>hl", function()
+                require("illuminate").toggle()
+            end, { desc = "切换高亮" })
         end,
     },
 

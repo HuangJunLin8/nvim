@@ -12,11 +12,10 @@ db.setup({
     week_header = { enable = false },  -- 禁用默认周报头(这样可以改用下面自定义的头)
     packages = { enable = false },     -- 禁用插件数量显示
     project = { enable = true },      -- 禁用默认项目列表
-    -- mru = { limit = 0 },               -- 禁用默认最近文件
+    mru = { limit = 5 },               -- 禁用默认最近文件
 
     -- 自定义 header （貌似 doom 中用不了）
     header = {
-      [[                                  ]],
       [[  ⣇⣿⠘⣿⣿⣿⡿⡿⣟⣟⢟⢟⢝⠵⡝⣿⡿⢂⣼⣿⣷⣌⠩⡫⡻⣝⠹⢿⣿⣷  ]],
       [[  ⡆⣿⣆⠱⣝⡵⣝⢅⠙⣿⢕⢕⢕⢕⢝⣥⢒⠅⣿⣿⣿⡿⣳⣌⠪⡪⣡⢑⢝⣇  ]],
       [[  ⡆⣿⣿⣦⠹⣳⣳⣕⢅⠈⢗⢕⢕⢕⢕⢕⢈⢆⠟⠋⠉⠁⠉⠉⠁⠈⠼⢐⢕⢽  ]],
@@ -67,7 +66,6 @@ db.setup({
 
     -- 自定义 footer
     footer = {
-      "",
       "",
       "https://github.com/HuangJunLin8/nvim.git",
     }

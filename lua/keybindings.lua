@@ -85,8 +85,8 @@ map("n", "<Leader>s", ":w<CR>", opt) -- 空格 + w 保存
 map("n", "<C-s>", ":w<CR>", opt) -- 空格 + w 保存
 
 -- insert 模式下，跳到行首行尾
-map("i", "<C-h>", "<ESC>I", opt)
-map("i", "<C-l>", "<ESC>A", opt)
+map("n", "<C-h>", "I<ESC>", opt)
+map("n", "<C-l>", "A<ESC>", opt)
 
 
 -- 插件内部快捷键在对应的插件.lua里
