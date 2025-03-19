@@ -1,38 +1,37 @@
 -- 检查 bufferline 插件是否加载成功
 local status, bufferline = pcall(require, "bufferline")
 if not status then
-  vim.notify("没有找到 bufferline.nvim")
-  return
+    vim.notify("没有找到 bufferline.nvim")
+    return
 end
 
 -- bufferline 核心配置
 bufferline.setup({
-  options = {
-    -- 显示模式：buffers 显示缓冲区列表，tabs 显示标签页列表
-    mode = "buffers",
-    -- 标签编号显示方式：none|ordinal|buffer_id
-    numbers = "none",
-    -- 关闭标签命令（使用 mini.bufremove 插件避免布局破坏）
-    close_command = function(bufnr)
-      require('mini.bufremove').delete(bufnr, false)
-    end,
-    -- 右键关闭命令
-    right_mouse_command = function(bufnr)
-      require('mini.bufremove').delete(bufnr, false)
-    end,
+    options = {
+        -- 显示模式：buffers 显示缓冲区列表，tabs 显示标签页列表
+        mode = "buffers",
+        -- 标签编号显示方式：none|ordinal|buffer_id
+        numbers = "none",
+        -- 关闭标签命令（使用 mini.bufremove 插件避免布局破坏）
+        close_command = function(bufnr)
+            require("mini.bufremove").delete(bufnr, false)
+        end,
+        -- 右键关闭命令
+        right_mouse_command = function(bufnr)
+            require("mini.bufremove").delete(bufnr, false)
+        end,
 
-    -- 侧边栏偏移配置（适配文件树布局）
-    offsets = {
-      {
-        filetype = "NvimTree",   -- 关联文件树插件
-        text = "File Explorer",  -- 侧边栏标题
-        highlight = "Directory", -- 高亮样式组
-        text_align = "left"      -- 标题对齐方式
-      }
-    },
+        -- 侧边栏偏移配置（适配文件树布局）
+        offsets = {
+            {
+                filetype = "NvimTree", -- 关联文件树插件
+                text = "File Explorer", -- 侧边栏标题
+                highlight = "Directory", -- 高亮样式组
+                text_align = "left", -- 标题对齐方式
+            },
+        },
 
-
-    --[[
+        --[[
     -- 诊断信息集成（使用 nvim 内置 LSP）
     diagnostics = "nvim_lsp",
 
@@ -52,10 +51,10 @@ bufferline.setup({
 
     --]]
 
-    -- 标签分隔符样式（可选: slant, thick_thin, thin等）
-    separator_style = "thick_thin",
+        -- 标签分隔符样式（可选: slant, thick_thin, thin等）
+        separator_style = "thick_thin",
 
-    -- 显示文件类型图标（需要 nvim-web-devicons 插件）
-    show_buffer_icons = true
-  }
+        -- 显示文件类型图标（需要 nvim-web-devicons 插件）
+        show_buffer_icons = true,
+    },
 })
