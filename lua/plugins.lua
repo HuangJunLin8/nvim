@@ -152,7 +152,24 @@ require("lazy").setup({
     {
         "lukas-reineke/indent-blankline.nvim",
         event = "BufReadPost",
-        main = "ibl",
+        dependencies = {
+            {
+                "echasnovski/mini.indentscope", -- 高亮当前的缩进线
+                version = "*",
+                config = function()
+                    require("mini.indentscope").setup({
+                        draw = {
+                            delay = 100, -- 延迟显示，避免闪烁
+                            animation = require("mini.indentscope").gen_animation.none(),
+                        },
+                        symbol = "│", -- 自定义缩进符号
+                        options = {
+                            try_as_border = true, -- 如果可能，将缩进线作为边界线显示
+                        },
+                    })
+                end,
+            },
+        },
         config = function()
             require("plugin-config.ui.blankline")
         end,
