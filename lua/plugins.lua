@@ -12,7 +12,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-
 -- 配置插件
 require("lazy").setup({
     -- =========================================== 界面美化组 =====================================================
@@ -22,7 +21,7 @@ require("lazy").setup({
         preority = 1000, -- 设置高优先级以确保主题优先加载
     },
 
-    -- 主题: catppuccin 
+    -- 主题: catppuccin
     {
         "catppuccin/nvim",
         name = "catppuccin",
@@ -30,14 +29,34 @@ require("lazy").setup({
     },
 
     -- 文件树插件 (快捷键触发加载)
+    -- {
+    --     "nvim-tree/nvim-tree.lua",
+    --     keys = {
+    --         { "<A-m>", "<cmd>NvimTreeToggle<cr>", desc = "文件树切换" },
+    --     },
+    --     dependencies = { "nvim-tree/nvim-web-devicons" },
+    --     config = function()
+    --         require("plugin-config.ui.nvim-tree")
+    --     end,
+    -- },
+
     {
-        "nvim-tree/nvim-tree.lua",
+        "nvim-neo-tree/neo-tree.nvim",
+        branch = "v3.x",
         keys = {
-            { "<A-m>", "<cmd>NvimTreeToggle<cr>", desc = "文件树切换" },
+            { "<A-m>", "<cmd>Neotree toggle<cr>", desc = "文件树切换" },
         },
-        dependencies = { "nvim-tree/nvim-web-devicons" },
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-web-devicons",
+            "MunifTanjim/nui.nvim",
+        },
         config = function()
-            require("plugin-config.ui.nvim-tree")
+            require("neo-tree").setup({
+                close_if_last_window = true, -- 如果只剩文件树窗口，关闭时退出 Neovim
+                enable_git_status = true, -- 显示 Git 状态
+                enable_diagnostics = true, -- 显示诊断信息
+            })
         end,
     },
 
