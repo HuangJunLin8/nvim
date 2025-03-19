@@ -12,16 +12,21 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+
 -- 配置插件
 require("lazy").setup({
     -- =========================================== 界面美化组 =====================================================
-    -- 主题插件
+    -- 主题: tokyonight
     {
         "folke/tokyonight.nvim",
-        priority = 1000, -- 设置高优先级以确保主题优先加载
-        config = function()
-            require("colorscheme")
-        end,
+        preority = 1000, -- 设置高优先级以确保主题优先加载
+    },
+
+    -- 主题: catppuccin 
+    {
+        "catppuccin/nvim",
+        name = "catppuccin",
+        priority = 1000,
     },
 
     -- 文件树插件 (快捷键触发加载)
@@ -117,6 +122,26 @@ require("lazy").setup({
         end,
     },
 
+    -- 快捷键提示
+    {
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+        opts = {
+            -- your configuration comes here
+            -- or leave it empty to use the default settings
+            -- refer to the configuration section below
+        },
+        keys = {
+            {
+                "<leader>?",
+                function()
+                    require("which-key").show({ global = false })
+                end,
+                desc = "Buffer Local Keymaps (which-key)",
+            },
+        },
+    },
+
     -- =========================================== 核心功能组 =====================================================
     -- Telescope 搜索套件 (快捷键核心触发)
     {
@@ -202,10 +227,10 @@ require("lazy").setup({
     -- LSP 体验增强
     {
         "nvimdev/lspsaga.nvim",
-        event = 'LspAttach',
+        event = "LspAttach",
         config = function()
             require("lspsaga").setup({
-                vim.keymap.set('n', 'K', '<cmd>Lspsaga hover_doc'),
+                vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc"),
             })
         end,
         dependencies = {
@@ -239,12 +264,12 @@ require("lazy").setup({
 
     -- 浮动终端 ( 在 lspsaga 里面配置 ：Lspsaga term_toggle)
     -- {
-        -- "akinsho/toggleterm.nvim",
-        -- version = "*",
-        -- priority = 700,
-        -- config = function()
-            -- require("plugin-config.ui.toggleterm").setup()
-        -- end,
+    -- "akinsho/toggleterm.nvim",
+    -- version = "*",
+    -- priority = 700,
+    -- config = function()
+    -- require("plugin-config.ui.toggleterm").setup()
+    -- end,
     -- },
 
     -- 文件执行
@@ -332,7 +357,7 @@ require("lazy").setup({
 
             -- 绑定快捷键（可选）
             -- vim.keymap.set("n", "<Leader>hl", function()
-                -- require("illuminate").toggle()
+            -- require("illuminate").toggle()
             -- end, { desc = "切换高亮" })
         end,
     },

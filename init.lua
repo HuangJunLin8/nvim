@@ -7,3 +7,5 @@ require("keybindings")
 -- lazy.nvim 插件管理
 require("plugins")
 
+-- 加载主题配置
+require("colorscheme")

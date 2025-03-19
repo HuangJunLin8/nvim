@@ -1,29 +1,54 @@
--- 定义要加载的主题名称
--- local colorscheme = "tokyonight-storm"
--- local colorscheme = "tokyonight-night"
--- local colorscheme = "tokyonight-day"
-local colorscheme = "tokyonight-moon"
+-- local colorscheme = "tokyonight-moon"
+local colorscheme = "catppuccin-mocha"
+
+local function apply_colorscheme()
+    local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
+    if not status_ok then
+        vim.notify("Colorscheme " .. colorscheme .. " 没有找到！", vim.log.levels.ERROR)
+        return
+    end
+end
 
 -- 配置 tokyonight.nvim
-require("tokyonight").setup({
-    transparent = false, -- 是否启用透明背景
-    terminal_colors = true, -- 启用终端颜色
-    styles = {
-        comments = { italic = true }, -- 注释使用斜体
-        keywords = { italic = true }, -- 关键字使用斜体
-        functions = { bold = true }, -- 函数名称使用粗体
-        variables = {}, -- 变量使用默认样式
-    },
-    sidebars = { "qf", "help" }, -- 侧边栏样式
-    dim_inactive = false, -- 是否降低非活动窗口的亮度
-    lualine_bold = false, -- 是否在 lualine 中使用粗体
-})
-
-
--- 尝试加载主题
-local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
-if not status_ok then
-    vim.notify("colorscheme " .. colorscheme .. " 没有找到！")
-    return
+if colorscheme:find("tokyonight") then
+    local status, tokyonight = pcall(require, "tokyonight")
+    if status then
+        tokyonight.setup({
+            transparent = false,
+            terminal_colors = true,
+            styles = {
+                comments = { italic = true },
+                keywords = { italic = true },
+                functions = { bold = true },
+            },
+            sidebars = { "qf", "help" },
+            dim_inactive = false,
+            lualine_bold = false,
+        })
+    else
+        vim.notify("tokyonight.nvim 未找到", vim.log.levels.ERROR)
+    end
 end
+
+-- 配置 catppuccin.nvim
+if colorscheme:find("catppuccin") then
+    local status, catppuccin = pcall(require, "catppuccin")
+    if status then
+        catppuccin.setup({
+            flavour = "mocha",
+            transparent_background = false,
+            term_colors = true,
+            integrations = {
+                treesitter = true,
+                lsp_trouble = true,
+                cmp = true,
+            },
+        })
+    else
+        vim.notify("catppuccin.nvim 未找到", vim.log.levels.ERROR)
+    end
+end
+
+-- 应用主题
+apply_colorscheme()
 
