@@ -28,18 +28,6 @@ require("lazy").setup({
         priority = 1000,
     },
 
-    -- 文件树插件 (快捷键触发加载)
-    -- {
-    --     "nvim-tree/nvim-tree.lua",
-    --     keys = {
-    --         { "<A-m>", "<cmd>NvimTreeToggle<cr>", desc = "文件树切换" },
-    --     },
-    --     dependencies = { "nvim-tree/nvim-web-devicons" },
-    --     config = function()
-    --         require("plugin-config.ui.nvim-tree")
-    --     end,
-    -- },
-
     {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v3.x",
@@ -92,6 +80,37 @@ require("lazy").setup({
         },
         config = function()
             require("plugin-config.ui.lualine")
+        end,
+    },
+
+    -- 消息管理: noice.nvim
+    {
+        "folke/noice.nvim",
+        event = "VeryLazy", -- 延迟加载插件，加快启动速度
+        dependencies = {
+            "MunifTanjim/nui.nvim", -- 提供 UI 支持的依赖插件
+            "rcarriga/nvim-notify", -- 替换 Neovim 默认的通知系统，提供更美观的消息弹窗
+        },
+        config = function()
+            require("noice").setup({
+                -- LSP 相关配置
+                lsp = {
+                    override = {
+                        -- 覆盖 LSP 的 markdown 渲染方式，使其使用 noice 的 UI
+                        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                        ["vim.lsp.util.stylize_markdown"] = true,
+                        -- 覆盖 cmp 的文档渲染方式，确保 noice 的 UI 生效
+                        ["cmp.entry.get_documentation"] = true,
+                    },
+                },
+                -- 预设功能开关
+                presets = {
+                    bottom_search = true, -- 使用底部命令栏显示搜索结果
+                    command_palette = true, -- 使用类似命令面板的界面取代传统命令行
+                    long_message_to_split = true, -- 当消息过长时，将其分割到浮动窗口显示
+                    inc_rename = false, -- 关闭内置的增量重命名 UI（可以选择其他插件提供类似功能）
+                },
+            })
         end,
     },
 
