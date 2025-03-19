@@ -117,8 +117,8 @@ lspsaga.setup({ -- defaults ...
     highlight_prefix = false,
 })
 
---  LSP 状态指示器（显示后台操作进度）
-require("fidget").setup({
+--  LSP 状态指示器（显示后台操作进度）   -- 用 notice.nvim 替换
+-- require("fidget").setup({
     -- notification = {
     --     -- ▼ 窗口配置 ▼
     --     -- window = {
@@ -136,4 +136,4 @@ require("fidget").setup({
     --         },
     --     },
     -- },
-})
+-- })

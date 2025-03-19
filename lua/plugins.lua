@@ -114,20 +114,18 @@ require("lazy").setup({
         end,
     },
 
-    -- Dashboard 启动页 (VimEnter 事件触发)
+    -- 启动界面插件: alpha.nvim
     {
-        "nvimdev/dashboard-nvim",
+        "goolord/alpha-nvim",
         event = "VimEnter",
         dependencies = {
-            "nvim-telescope/telescope.nvim",
+            "nvim-telescope/telescope.nvim", -- 依赖 Telescope 用于项目和文件搜索
         },
         init = function()
-            vim.g.loaded_netrw = 1
-            vim.g.loaded_netrwPlugin = 1
-            vim.opt.showtabline = 0
+            vim.opt.showtabline = 0 -- 启动时不显示 TabLine
         end,
         config = function()
-            require("plugin-config.ui.dashboard")
+            require("plugin-config.ui.alpha")
         end,
     },
 
@@ -235,7 +233,7 @@ require("lazy").setup({
         event = { "BufReadPre", "BufNewFile" }, -- 打开文件前加载
         dependencies = {
             -- 注意： 若打开lualine.lua 里的 lsp-progress 那两行加载图标配置, 这个状态指示就不会生效
-            "j-hui/fidget.nvim", -- 状态指示
+            -- "j-hui/fidget.nvim", -- 状态指示(用notice.nvim 替换)
             "folke/neodev.nvim", -- neovim 开发
         },
         config = function()
