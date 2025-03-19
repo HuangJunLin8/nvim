@@ -74,7 +74,7 @@ require("lazy").setup({
         },
         event = "BufEnter", -- 保留事件触发作为备用加载条件
         dependencies = {
-            "moll/vim-bbye",
+            "echasnovski/mini.bufremove",
             "nvim-tree/nvim-web-devicons",
         },
         config = function()

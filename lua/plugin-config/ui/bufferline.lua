@@ -12,10 +12,14 @@ bufferline.setup({
     mode = "buffers",
     -- 标签编号显示方式：none|ordinal|buffer_id
     numbers = "none",
-    -- 关闭标签命令（使用 vim-bbye 插件避免布局破坏）
-    close_command = "Bdelete! %d",
+    -- 关闭标签命令（使用 mini.bufremove 插件避免布局破坏）
+    close_command = function(bufnr)
+      require('mini.bufremove').delete(bufnr, false)
+    end,
     -- 右键关闭命令
-    right_mouse_command = "Bdelete! %d",
+    right_mouse_command = function(bufnr)
+      require('mini.bufremove').delete(bufnr, false)
+    end,
 
     -- 侧边栏偏移配置（适配文件树布局）
     offsets = {
