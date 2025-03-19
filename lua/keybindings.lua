@@ -67,7 +67,7 @@ map("v", "p", '"_dP', opt)
 
 -- 退出
 map("n", "q", ":q<CR>", opt)
-map("n", "qq", ":wqa<CR>", opt)
+map("n", "qq", ":wq<CR>", opt)
 map("n", "Q", ":q!<CR>", opt)
 map("i", "jj", "<ESC>", opt)
 

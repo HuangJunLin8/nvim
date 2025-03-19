@@ -29,10 +29,10 @@ function M.setup()
   })
 
   -- 打开终端k
-  vim.keymap.set("n", "<leader>p", function()
-    local cmd = "ToggleTerm direction=float"
-    vim.cmd(cmd)
-  end, { desc = "打开终端" })
+  -- vim.keymap.set("n", "<leader>p", function()
+    -- local cmd = "ToggleTerm direction=float"
+    -- vim.cmd(cmd)
+  -- end, { desc = "打开终端" })
 
   -- 设置编译运行快捷键（需要插件加载后执行）
   -- vim.keymap.set("n", "<A-j>", function()

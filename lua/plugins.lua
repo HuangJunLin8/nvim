@@ -43,7 +43,16 @@ require("lazy").setup({
             require("neo-tree").setup({
                 close_if_last_window = true, -- 如果只剩文件树窗口，关闭时退出 Neovim
                 enable_git_status = true, -- 显示 Git 状态
-                enable_diagnostics = true, -- 显示诊断信息
+                enable_diagnostics = false, -- 显示诊断信息
+                window = {
+                    width = math.floor(vim.o.columns * 0.2), -- 根据总列数设置为 20% 宽度
+                    mappings = {
+                        ["o"] = "open", -- 打开/关闭文件夹
+                    },
+                },
+                -- window = {
+                -- ["O"] = "order_by", -- 选择排序方式
+                -- },
             })
         end,
     },
@@ -93,6 +102,22 @@ require("lazy").setup({
         },
         config = function()
             require("noice").setup({
+                timeout = 1000,
+                routes = {
+                    {
+                        filter = {
+                            event = "lsp",
+                            kind = "progress", -- 过滤掉 LSP 某些消息
+                            any = {
+                                { find = "Processing file symbols" },
+                                { find = "Processing full semantic tokens" },
+                                { find = "Diagnosing lua_ls" },
+                            },
+                        },
+                        opts = { skip = true }, -- 不显示
+                    },
+                },
+
                 -- LSP 相关配置
                 lsp = {
                     override = {
@@ -195,6 +220,25 @@ require("lazy").setup({
         },
     },
 
+    {
+        "folke/snacks.nvim",
+        config = function()
+            require("snacks").setup({
+                popup = {
+                    border = "rounded", -- 使用圆角边框
+                    highlight = "NormalFloat", -- 使用浮动窗口的默认高亮
+                },
+                hints = {
+                    enable = true, -- 启用提示信息
+                },
+                notifications = {
+                    enable = true, -- 启用通知弹窗
+                },
+            })
+        end,
+    },
+
+
     -- =========================================== 核心功能组 =====================================================
     -- Telescope 搜索套件 (快捷键核心触发)
     {
@@ -221,7 +265,10 @@ require("lazy").setup({
         },
         event = { "BufReadPost", "BufNewFile" }, -- 更精准的触发事件
         build = ":TSUpdate",
-        dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter-textobjects",
+            "windwp/nvim-ts-autotag", -- 添加 nvim-ts-autotag 自动补全标签
+        },
         config = function()
             require("plugin-config.code.nvim-treesitter")
         end,
@@ -252,6 +299,7 @@ require("lazy").setup({
             -- 注意： 若打开lualine.lua 里的 lsp-progress 那两行加载图标配置, 这个状态指示就不会生效
             -- "j-hui/fidget.nvim", -- 状态指示(用notice.nvim 替换)
             "folke/neodev.nvim", -- neovim 开发
+            "folke/trouble.nvim", -- 添加 trouble.nvim 集中显示诊断信息
         },
         config = function()
             require("plugin-config.lsp.init")
@@ -330,16 +378,29 @@ require("lazy").setup({
         "CRAG666/code_runner.nvim",
         version = "*",
         priority = 700,
+        silent = true,
         --dependencies = { "akinsho/toggleterm.nvim" },
         config = function()
             require("plugin-config.code.code_runner")
         end,
     },
 
+    -- todo 高亮
+    {
+        "folke/todo-comments.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = function()
+            require("todo-comments").setup({})
+        end,
+    },
+
     -- 代码注释  快捷键在keybinds
     {
-        "tpope/vim-commentary",
-        event = "VeryLazy",
+        "ts-comments.nvim",
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        config = function()
+            require("ts-comments").setup({})
+        end,
     },
 
     -- 自动项目根目录

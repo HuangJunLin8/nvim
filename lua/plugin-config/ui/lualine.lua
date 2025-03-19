@@ -13,7 +13,11 @@ lualine.setup({
     theme = colorscheme,  -- 自动同步当前主题
     component_separators = { left = "|", right = "|" },
     section_separators = { left = " ", right = "" },  -- 使用 Powerline 风格分隔符
-    disabled_filetypes = { "NvimTree" }  -- 在文件树中禁用状态栏
+    disabled_filetypes = {
+      statusline = { "neo-tree", "NvimTree" }, -- 禁用在 neo-tree 中显示
+      -- winbar = { "neo-tree" },     -- 如果你也用 winbar，可以同时禁用
+    },
+
   },
   extensions = { "nvim-tree", "toggleterm" },  -- 扩展支持
   sections = {
