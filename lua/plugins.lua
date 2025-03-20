@@ -48,7 +48,8 @@ require("lazy").setup({
         keys = {
             { "<leader>h", "<cmd>BufferLineCyclePrev<cr>", desc = "左标签页" },
             { "<leader>l", "<cmd>BufferLineCycleNext<cr>", desc = "右标签页" },
-            { "<leader>q", "<cmd>Bdelete!<cr>", desc = "关闭标签页" },
+
+            -- { "<leader>q", "<cmd>Bdelete!<cr>", desc = "关闭标签页" },
             { "<leader>wl", "<cmd>BufferLineCloseRight<cr>", desc = "闭右侧所有标签页（不含当前" },
             { "<leader>wh", "<cmd>BufferLineCloseLeft<cr>", desc = "关闭左侧所有标签页（不含当前）" },
             { "<leader>wc", "<cmd>BufferLinePickClose<cr>", desc = "交互式选择关闭目标标签页" },

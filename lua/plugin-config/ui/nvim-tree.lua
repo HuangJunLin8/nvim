@@ -7,7 +7,7 @@ end
 
 -- 配置 nvim-tree 文件浏览器
 nvim_tree.setup({
-  git = { enable = false }, -- 禁用 git 状态显示
+  git = { enable = true }, -- 禁用 git 状态显示
   update_cwd = true, -- 更新时同步当前工作目录
   update_focused_file = { -- 自动聚焦当前打开文件
     enable = true,
@@ -49,6 +49,11 @@ nvim_tree.setup({
 })
 
 -- 当只剩下文件树窗口时自动关闭
-vim.cmd([[
-  autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
-]])
+-- vim.cmd([[
+--   autocmd WinEnter * ++nested if winnr('$') == 1 && &filetype == 'NvimTree' | quit | endif
+-- ]])
+
+
+
+-- 可选：映射快捷键
+-- vim.api.nvim_set_keymap('n', '<Leader>q', '<Cmd>lua _G.smart_quit()<CR>', { noremap = true, silent = true })
