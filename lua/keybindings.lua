@@ -66,8 +66,75 @@ map("n", "<C-d>", "9j", opt)
 map("v", "p", '"_dP', opt)
 
 -- 退出
-map("n", "q", ":q<CR>", opt)
-map("n", "qq", ":wq<CR>", opt)
+-- 保存并退出
+_G.smart_save_quit = function()
+  vim.cmd('wall') -- :wall 命令会保存所有已修改的缓冲区
+  vim.cmd('qa!') -- 强制退出，避免 :qa 失败
+
+  -- -- 获取当前标签页总数
+  -- local buffer_count = vim.fn.len(vim.fn.getbufinfo({buflisted = 1}))
+
+  -- if buffer_count == 1 then
+  --   -- 只有一个标签页，直接退出
+  --   vim.cmd('qa!') -- 强制退出，避免 :qa 失败
+  -- else
+  --   -- 多个标签页，弹出确认对话框
+  --   local choice = vim.fn.confirm('是否退出所有标签页？', '&Yes\n&No', 1)
+  --   if choice == 1 then
+  --     -- 用户选择 Yes，退出所有标签页
+  --     vim.cmd('qa!')
+  --   end
+  -- end
+end
+
+-- 仅退出不保存
+_G.smart_quit = function()
+  -- 获取所有已列出的缓冲区
+  local buffers = vim.fn.getbufinfo({buflisted = 1})
+
+  -- 检查是否有未保存的缓冲区
+  local unsaved_buffers = {}
+  for _, buf in ipairs(buffers) do
+    if buf.changed == 1 then -- `changed == 1` 表示有修改未保存
+      table.insert(unsaved_buffers, buf.name ~= "" and buf.name or "[未命名缓冲区]")
+    end
+  end
+
+  -- 如果有未保存的缓冲区，询问是否保存
+  if #unsaved_buffers > 0 then
+    local msg = "检测到未保存的缓冲区:\n" .. table.concat(unsaved_buffers, "\n") .. "\n是否保存后退出？"
+    local choice = vim.fn.confirm(msg, "&No\n&Yes\n&Cancel", 3)
+    if choice == 2 then
+      vim.cmd('wall') -- 保存所有缓冲区
+    elseif choice == 3 then
+      return -- 取消操作，不退出
+    end
+  end
+
+  vim.cmd('qa!') -- 只有一个标签页，直接强制退出
+
+  -- -- 获取当前标签页总数
+  -- local buffer_count = vim.fn.len(vim.fn.getbufinfo({buflisted = 1}))
+
+  -- if buffer_count == 1 then
+  --   -- 只有一个标签页，直接退出
+  --   vim.cmd('qa!') -- 强制退出，避免 :qa 失败
+  -- else
+  --   -- 多个标签页，弹出确认对话框
+  --   local choice = vim.fn.confirm('是否退出所有标签页？', '&Yes\n&No', 1)
+  --   if choice == 1 then
+  --     -- 用户选择 Yes，退出所有标签页
+  --     vim.cmd('qa!')
+  --   end
+  -- end
+end
+
+
+vim.api.nvim_set_keymap('n', 'qq', '<Cmd>lua _G.smart_save_quit()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'q', '<Cmd>lua _G.smart_quit()<CR>', { noremap = true, silent = true })
+
+-- map("n", "q", ":q<CR>", opt)
+-- map("n", "qq", ":wqa<CR>", opt)
 map("n", "Q", ":q!<CR>", opt)
 map("i", "jj", "<ESC>", opt)
 

@@ -29,30 +29,37 @@ require("lazy").setup({
 	},
 
 	-- 文件树
-	{
-		"nvim-neo-tree/neo-tree.nvim",
-		branch = "v3.x",
-		keys = { { "<A-m>", "<cmd>Neotree toggle<cr>", desc = "文件树切换" } },
-		dependencies = { "nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons", "MunifTanjim/nui.nvim" },
-		config = function()
-			require("neo-tree").setup({
-				close_if_last_window = true, -- 如果只剩文件树窗口，关闭时退出 Neovim
-				enable_git_status = true, -- 显示 Git 状态
-				enable_diagnostics = false, -- 显示诊断信息
-				window = {
-					width = math.floor(vim.o.columns * 0.2), -- 根据总列数设置为 20% 宽度
-					mappings = {
-						["o"] = "open", -- 打开/关闭文件夹
-					},
-				},
-			})
-		end,
-	},
+	-- {
+	-- 	"nvim-neo-tree/neo-tree.nvim",
+	-- 	branch = "v3.x",
+	-- 	keys = { { "<A-m>", "<cmd>Neotree toggle<cr>", desc = "文件树切换" } },
+	-- 	dependencies = { "nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons", "MunifTanjim/nui.nvim" },
+	-- 	config = function()
+	-- 		require("neo-tree").setup({
+	-- 			close_if_last_window = true, -- 如果只剩文件树窗口，关闭时退出 Neovim
+	-- 			enable_git_status = true, -- 显示 Git 状态
+	-- 			enable_diagnostics = false, -- 显示诊断信息
+	-- 			window = {
+	-- 				width = math.floor(vim.o.columns * 0.2), -- 根据总列数设置为 20% 宽度
+	-- 				mappings = {
+	-- 					["o"] = "open", -- 打开/关闭文件夹
+	-- 				},
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
 
     -- 文件树
     {
-
-    }
+        "nvim-tree/nvim-tree.lua",
+        keys = {
+            { "<A-m>", "<cmd>NvimTreeToggle<cr>", desc = "文件树切换" },
+        },
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        config = function()
+            require("plugin-config.ui.nvim-tree")
+        end,
+    },
 
 	-- Bufferline 标签栏 (快捷键触发 + BufEnter 事件)
 	{
@@ -61,7 +68,7 @@ require("lazy").setup({
 		keys = {
 			{ "<leader>h", "<cmd>BufferLineCyclePrev<cr>", desc = "左标签页" },
 			{ "<leader>l", "<cmd>BufferLineCycleNext<cr>", desc = "右标签页" },
-			{ "<leader>q", "<cmd>Bdelete!<cr>", desc = "关闭标签页" },
+			{ "<leader>q", function() require("mini.bufremove").delete(0, false) end, desc = "关闭当前标签页" },
 			{ "<leader>wl", "<cmd>BufferLineCloseRight<cr>", desc = "闭右侧所有标签页（不含当前" },
 			{ "<leader>wh", "<cmd>BufferLineCloseLeft<cr>", desc = "关闭左侧所有标签页（不含当前）" },
 			{ "<leader>wc", "<cmd>BufferLinePickClose<cr>", desc = "交互式选择关闭目标标签页" },
@@ -392,7 +399,7 @@ require("lazy").setup({
 
 	-- 代码注释  快捷键在keybinds
 	{
-		"ts-comments.nvim",
+		"folke/ts-comments.nvim",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		config = function()
 			require("ts-comments").setup({})
