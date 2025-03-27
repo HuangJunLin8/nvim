@@ -120,6 +120,67 @@ require("lazy").setup({
 						},
 						opts = { skip = true }, -- 不显示
 					},
+
+                    -- 屏蔽保存提示（"xxx written"）
+                    {
+                        filter = {
+                            event = "msg_show",
+                            kind = "",
+                            find = "written", -- 匹配保存消息（如 "xxx.lua 555L, 18670B written"）
+                        },
+                        opts = { skip = true }, -- 跳过显示
+                    },
+
+                    -- 屏蔽移动提示（"N lines moved"）
+                    {
+                        filter = {
+                            event = "msg_show",
+                            kind = "",
+                            find = "lines moved", -- 匹配移动消息（如 "3 lines moved"）
+                        },
+                        opts = { skip = true },
+                    },
+
+                    -- 屏蔽撤销/重做相关提示
+                    {
+                        filter = {
+                            event = "msg_show",
+                            any = {
+                                { find = "more line; before #" },
+                                { find = "Already at oldest change" },
+                                { find = "Already at newest change" },
+                            },
+                        },
+                        opts = { skip = true },
+                    },
+
+                    -- 屏蔽缩进操作的提示（如 "5 lines >ed 1 time"）
+                    {
+                        filter = {
+                            event = "msg_show",
+                            find = "lines >ed %d+ time",
+                        },
+                        opts = { skip = true },
+                    },
+
+                    -- 同时可以屏蔽反向操作（如 "5 lines <ed 1 time"）
+                    {
+                        filter = {
+                            event = "msg_show",
+                            find = "lines <ed %d+ time",
+                        },
+                        opts = { skip = true },
+                    },
+
+                    -- 屏蔽 CodeRunner 的 "No command available" 提示
+                    {
+                        filter = {
+                            event = "notify",
+                            find = "No command available for this file type",
+                        },
+                        opts = { skip = true },
+                    },
+
 				},
 
 				-- LSP 相关配置
