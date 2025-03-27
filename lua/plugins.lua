@@ -29,37 +29,37 @@ require("lazy").setup({
 	},
 
 	-- 文件树
-	-- {
-	-- 	"nvim-neo-tree/neo-tree.nvim",
-	-- 	branch = "v3.x",
-	-- 	keys = { { "<A-m>", "<cmd>Neotree toggle<cr>", desc = "文件树切换" } },
-	-- 	dependencies = { "nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons", "MunifTanjim/nui.nvim" },
-	-- 	config = function()
-	-- 		require("neo-tree").setup({
-	-- 			close_if_last_window = true, -- 如果只剩文件树窗口，关闭时退出 Neovim
-	-- 			enable_git_status = true, -- 显示 Git 状态
-	-- 			enable_diagnostics = false, -- 显示诊断信息
-	-- 			window = {
-	-- 				width = math.floor(vim.o.columns * 0.2), -- 根据总列数设置为 20% 宽度
-	-- 				mappings = {
-	-- 					["o"] = "open", -- 打开/关闭文件夹
-	-- 				},
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- },
+	{
+		"nvim-neo-tree/neo-tree.nvim",
+		branch = "v3.x",
+		keys = { { "<A-m>", "<cmd>Neotree toggle<cr>", desc = "文件树切换" } },
+		dependencies = { "nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons", "MunifTanjim/nui.nvim" },
+		config = function()
+			require("neo-tree").setup({
+				close_if_last_window = true, -- 如果只剩文件树窗口，关闭时退出 Neovim
+				enable_git_status = true, -- 显示 Git 状态
+				enable_diagnostics = false, -- 显示诊断信息
+				window = {
+					width = math.floor(vim.o.columns * 0.2), -- 根据总列数设置为 20% 宽度
+					mappings = {
+						["o"] = "open", -- 打开/关闭文件夹
+					},
+				},
+			})
+		end,
+	},
 
     -- 文件树
-    {
-        "nvim-tree/nvim-tree.lua",
-        keys = {
-            { "<A-m>", "<cmd>NvimTreeToggle<cr>", desc = "文件树切换" },
-        },
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        config = function()
-            require("plugin-config.ui.nvim-tree")
-        end,
-    },
+    -- {
+    --     "nvim-tree/nvim-tree.lua",
+    --     keys = {
+    --         { "<A-m>", "<cmd>NvimTreeToggle<cr>", desc = "文件树切换" },
+    --     },
+    --     dependencies = { "nvim-tree/nvim-web-devicons" },
+    --     config = function()
+    --         require("plugin-config.ui.nvim-tree")
+    --     end,
+    -- },
 
 	-- Bufferline 标签栏 (快捷键触发 + BufEnter 事件)
 	{
@@ -205,24 +205,24 @@ require("lazy").setup({
 	},
 
 	-- 快捷键提示
-	{
-		"folke/which-key.nvim",
-		event = "VeryLazy",
-		opts = {
-			-- your configuration comes here
-			-- or leave it empty to use the default settings
-			-- refer to the configuration section below
-		},
-		keys = {
-			{
-				"<leader>?",
-				function()
-					require("which-key").show({ global = false })
-				end,
-				desc = "Buffer Local Keymaps (which-key)",
-			},
-		},
-	},
+	-- {
+	-- 	"folke/which-key.nvim",
+	-- 	event = "VeryLazy",
+	-- 	opts = {
+	-- 		-- your configuration comes here
+	-- 		-- or leave it empty to use the default settings
+	-- 		-- refer to the configuration section below
+	-- 	},
+	-- 	keys = {
+	-- 		{
+	-- 			"<leader>?",
+	-- 			function()
+	-- 				require("which-key").show({ global = false })
+	-- 			end,
+	-- 			desc = "Buffer Local Keymaps (which-key)",
+	-- 		},
+	-- 	},
+	-- },
 
 	{
 		"folke/snacks.nvim",
