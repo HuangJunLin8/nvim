@@ -540,6 +540,14 @@ require("lazy").setup({
 		end,
 	},
 
+    {
+        "lewis6991/gitsigns.nvim",
+        event = "BufReadPre",
+        config = function()
+            require('gitsigns').setup()
+        end
+    },
+
 	-- =============================================== 代码调试 ============================================
 	-- 调试器
 	{
