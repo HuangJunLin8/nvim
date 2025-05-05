@@ -1,5 +1,7 @@
 # Neovim Configuration Guide
 
+![t-rec](assets/t-rec.gif)
+
 This is a highly customized Neovim configuration written in Lua, using lazy.nvim as the plugin manager. The configuration includes a rich set of functional modules, including UI enhancements, code completion, LSP, debugging, and more.
 
 ## Instructions
